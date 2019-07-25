@@ -32,7 +32,7 @@ public class DefaultController {
     @RequestMapping(value = "/record/insert",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
     public Dictionary insertRecord(
-            @RequestParam(value = "dictionary", defaultValue="none") Dictionary dictionary) {
+            @RequestBody() Dictionary dictionary) {
         batisUtils.insertRecord(dictionary, Mapper.class);
         return dictionary;
     }
@@ -43,7 +43,8 @@ public class DefaultController {
      * */
     @RequestMapping(value = "/collection/record/insert",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set<Dictionary> insertCollectionRecords(Set<Dictionary> dictionaries) {
+    public Set<Dictionary> insertCollectionRecords(
+            @RequestParam(value = "dictionaries", defaultValue="none") Set<Dictionary> dictionaries) {
         batisUtils.insertCollectionRecords(dictionaries, Mapper.class);
         return dictionaries;
     }
@@ -54,7 +55,8 @@ public class DefaultController {
      * */
     @RequestMapping(value = "/record/delete",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Dictionary deleteRecord(Dictionary dictionary) {
+    public Dictionary deleteRecord(
+            @RequestParam(value = "dictionary", defaultValue="none") Dictionary dictionary) {
         batisUtils.deleteRecord(dictionary, Mapper.class);
         return dictionary;
     }
@@ -65,7 +67,8 @@ public class DefaultController {
      * */
     @RequestMapping(value = "/collection/record/delete",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set<Dictionary> deleteCollectionRecords(Set<Dictionary> dictionaries) {
+    public Set<Dictionary> deleteCollectionRecords(
+            @RequestParam(value = "dictionaries", defaultValue="none") Set<Dictionary> dictionaries) {
         batisUtils.deleteCollectionRecords(dictionaries, Mapper.class);
         return dictionaries;
     }
