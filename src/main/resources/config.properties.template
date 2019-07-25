@@ -1,0 +1,4 @@
+db.driver=org.postgresql.Driver
+db.url=jdbc:postgresql://IP:PORT/DATABASE
+db.username=user
+db.password=123
