@@ -3,11 +3,11 @@ package ru.mobilcard.restservice.mappers.cbo;
 import org.apache.ibatis.annotations.*;
 import ru.mobilcard.restservice.mappers.Mapper;
 import ru.mobilcard.restservice.models.cbo.BankModel;
-import ru.mobilcard.restservice.models.interfaces.Dictionary;
+import ru.mobilcard.restservice.models.interfaces.Model;
 
 import java.util.Set;
 
-public interface BankMapper extends Mapper {
+public interface BankMapper extends Mapper<Long> {
 
     @Select("select * from cbo.banks")
     @Results({
@@ -37,10 +37,10 @@ public interface BankMapper extends Mapper {
 
     @Insert("insert into cbo.banks (bankbik,koraccount,nname,nameshort,inn,kpp,bank_state) " +
             "VALUES(#{bankBik}, #{korAccount}, #{name}, #{nameShort}, #{inn}, #{kpp}, #{bankState})")
-    void insert(Dictionary dictionary);
+    void insert(Model dictionary);
 
     @Delete("delete from cbo.banks where id = #{id}")
-    void delete(Dictionary dictionary);
+    void delete(Model dictionary);
 
 
 }

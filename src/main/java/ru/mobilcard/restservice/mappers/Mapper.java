@@ -1,13 +1,13 @@
 package ru.mobilcard.restservice.mappers;
 
-import ru.mobilcard.restservice.models.interfaces.Dictionary;
+import ru.mobilcard.restservice.models.interfaces.Model;
 
 import java.util.Set;
 
 
-public interface Mapper {
-    Dictionary getById(Long id);
+public interface Mapper<IdentifierType> {
+    Model getById(IdentifierType id);
     Set getCollectionData();
-    void insert(Dictionary dictionary);
-    void delete(Dictionary dictionary);
+    void insert(Model dictionary);
+    void delete(Model dictionary);
 }

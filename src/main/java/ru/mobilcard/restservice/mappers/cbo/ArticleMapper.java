@@ -3,14 +3,14 @@ package ru.mobilcard.restservice.mappers.cbo;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.type.JdbcType;
 import ru.mobilcard.restservice.mappers.Mapper;
 import ru.mobilcard.restservice.models.cbo.ArticleModel;
-import ru.mobilcard.restservice.models.cbo.BankModel;
-import ru.mobilcard.restservice.models.interfaces.Dictionary;
+import ru.mobilcard.restservice.models.interfaces.Model;
 
 import java.util.Set;
 
-public interface ArticleMapper extends Mapper {
+public interface ArticleMapper extends Mapper<String> {
     @Select("SELECT external_str_id, name1, name2, " +
             "ecrshortname, ecrlongname, id_market, " +
             "id_pricegroup, id_parent, articletype, " +
@@ -39,9 +39,9 @@ public interface ArticleMapper extends Mapper {
             "ecrshortname, ecrlongname, id_market, " +
             "id_pricegroup, id_parent, articletype, " +
             "flg_disable, note, unittype, has_mrc, id_tax_system " +
-            "FROM cbo.cbo_articles a where a.external_str_id = = #{externalStrId}")
+            "FROM cbo.cbo_articles a where a.external_str_id = #{externalStrId}")
     @Results({
-            @Result(property = "externalStrId", column = "external_str_id"),
+            @Result(property = "externalStrId", column = "external_str_id", javaType = String.class, jdbcType = JdbcType.VARCHAR),
             @Result(property = "name1", column = "name1"),
             @Result(property = "name2", column = "name2"),
             @Result(property = "ecrshortname", column = "ecrshortname"),
@@ -57,11 +57,11 @@ public interface ArticleMapper extends Mapper {
             @Result(property = "idTaxSystem", column = "id_tax_system")
     })
     @Override
-    Dictionary getById(Long id);
+    ArticleModel getById(String id);
 
     @Override
-    void insert(Dictionary dictionary);
+    void insert(Model dictionary);
 
     @Override
-    void delete(Dictionary dictionary);
+    void delete(Model dictionary);
 }

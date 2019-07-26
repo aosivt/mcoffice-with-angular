@@ -1,8 +1,8 @@
 package ru.mobilcard.restservice.models.cbo;
 
-import ru.mobilcard.restservice.models.interfaces.Dictionary;
+import ru.mobilcard.restservice.models.interfaces.Model;
 
-public class ArticleModel implements Dictionary {
+public class ArticleModel implements Model {
     private String externalStrId;
     private String name1;
     private String name2;

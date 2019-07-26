@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
-import ru.mobilcard.restservice.utils.MyBatisUtils;
+import ru.mobilcard.restservice.fasades.BaseFacade;
 
 
 @Configuration
@@ -17,8 +17,8 @@ public class ApplicationConfig {
     private Environment env;
 
     @Bean
-    public MyBatisUtils getMyBatisUtils(){
-        return new MyBatisUtils();
+    public BaseFacade getMyBatisUtils(){
+        return new BaseFacade();
     }
 
 
