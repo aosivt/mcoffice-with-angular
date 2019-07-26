@@ -19,7 +19,7 @@ public class MyBatisConfig {
 
     private static InputStream getResource() {
         try {
-            String resource = "mybatis-config.xml";
+            String resource = "mybatis/mybatis-config.xml";
             return Resources.getResourceAsStream(resource);
         } catch (Exception e) {
             e.printStackTrace();

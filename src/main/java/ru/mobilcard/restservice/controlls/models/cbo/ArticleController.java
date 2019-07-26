@@ -15,11 +15,11 @@ import java.util.Set;
 public class ArticleController extends BaseController<ArticleMapper, ArticleModel, String> {
 
     @Override
-    protected Class getMapperClass(){
+    protected Class<ArticleMapper> getMapperClass(){
         return ArticleMapper.class;
     }
     @Override
-    protected Class getModelClass(){
+    protected Class<ArticleModel> getModelClass(){
         return ArticleModel.class;
     }
 

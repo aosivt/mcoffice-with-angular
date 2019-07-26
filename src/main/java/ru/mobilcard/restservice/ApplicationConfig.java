@@ -17,7 +17,7 @@ public class ApplicationConfig {
     private Environment env;
 
     @Bean
-    public BaseFacade getMyBatisUtils(){
+    public BaseFacade getBaseFacade(){
         return new BaseFacade();
     }
 

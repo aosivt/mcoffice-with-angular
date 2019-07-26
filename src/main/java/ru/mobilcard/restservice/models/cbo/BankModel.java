@@ -1,6 +1,7 @@
 package ru.mobilcard.restservice.models.cbo;
 
 import ru.mobilcard.restservice.models.interfaces.Model;
+import ru.mobilcard.restservice.models.types.UnitDisableState;
 
 public class BankModel implements Model {
     private Long id;
@@ -10,7 +11,7 @@ public class BankModel implements Model {
     private String nameShort;
     private String inn;
     private String kpp;
-    private String bankState;
+    private UnitDisableState bankState;
 
     @Override
     public Long getId() {
@@ -69,11 +70,11 @@ public class BankModel implements Model {
         this.kpp = kpp;
     }
 
-    public String getBankState() {
+    public UnitDisableState getBankState() {
         return bankState;
     }
 
-    public void setBankState(String bankState) {
+    public void setBankState(UnitDisableState bankState) {
         this.bankState = bankState;
     }
 }

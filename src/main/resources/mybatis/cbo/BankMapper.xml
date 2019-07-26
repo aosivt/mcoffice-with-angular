@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.mobilcard.restservice.mappers.cbo.BankMapper">
+    <resultMap id="bankResultMap" type="ru.mobilcard.restservice.models.cbo.BankModel">
+        <id     property="id"           column="id" />
+        <result property="bankBik"      column="bankbik"/>
+        <result property="korAccount"   column="koraccount"/>
+        <result property="name"         column="nname"/>
+        <result property="nameShort"    column="nameshort"/>
+        <result property="inn"          column="inn"/>
+        <result property="kpp"          column="kpp"/>
+        <result property="bankState"    column="bank_state"/>
+    </resultMap>
+
+    <select id="getCollectionData" resultMap="bankResultMap">
+        select * from cbo.banks;
+    </select>
+
+    <select id="getById" resultMap="bankResultMap">
+        select * from cbo.banks b where b.id = #{id};
+    </select>
+
+    <insert id="insert">
+        insert into cbo.banks (bankbik,koraccount,nname,nameshort,inn,kpp,bank_state)
+        VALUES( #{bankBik},
+                #{korAccount},
+                #{name},
+                #{nameShort},
+                #{inn},
+                #{kpp},
+                #{bankState}::"types".unitdisablestate);
+    </insert>
+
+    <delete id="delete">
+        "delete from cbo.banks where id = #{bank.id}"
+    </delete>
+
+</mapper>

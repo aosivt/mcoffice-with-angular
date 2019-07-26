@@ -7,40 +7,19 @@ import ru.mobilcard.restservice.models.interfaces.Model;
 
 import java.util.Set;
 
-public interface BankMapper extends Mapper<Long> {
+public interface BankMapper extends Mapper<BankModel, Long> {
 
-    @Select("select * from cbo.banks")
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "bankBik", column = "bankbik"),
-            @Result(property = "korAccount", column = "koraccount"),
-            @Result(property = "name", column = "nname"),
-            @Result(property = "nameShort", column = "nameshort"),
-            @Result(property = "inn", column = "inn"),
-            @Result(property = "kpp", column = "kpp"),
-            @Result(property = "bankState", column = "bank_state")
-    })
+    @Override
     Set<BankModel> getCollectionData();
 
-    @Select("select * from cbo.banks b where b.id = #{id}")
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "bankBik", column = "bankbik"),
-            @Result(property = "korAccount", column = "koraccount"),
-            @Result(property = "name", column = "nname"),
-            @Result(property = "nameShort", column = "nameshort"),
-            @Result(property = "inn", column = "inn"),
-            @Result(property = "kpp", column = "kpp"),
-            @Result(property = "bankState", column = "bank_state")
-    })
+    @Override
     BankModel getById(Long id);
 
-    @Insert("insert into cbo.banks (bankbik,koraccount,nname,nameshort,inn,kpp,bank_state) " +
-            "VALUES(#{bankBik}, #{korAccount}, #{name}, #{nameShort}, #{inn}, #{kpp}, #{bankState})")
-    void insert(Model dictionary);
+    @Override
+    void insert(BankModel model);
 
-    @Delete("delete from cbo.banks where id = #{id}")
-    void delete(Model dictionary);
+    @Override
+    void delete(BankModel model);
 
 
 }

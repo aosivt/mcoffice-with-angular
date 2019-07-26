@@ -1,14 +1,11 @@
 package ru.mobilcard.restservice.controlls;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
-import ru.mobilcard.restservice.mappers.Mapper;
-import ru.mobilcard.restservice.mappers.cbo.ArticleMapper;
-import ru.mobilcard.restservice.models.interfaces.Model;
-import ru.mobilcard.restservice.fasades.BaseFacade;
 
-import java.util.Set;
-
+/**
+ * @apiNote Controller for default page (example: 404, 403, 500 ...)
+ */
 @RestController()
 public class DefaultController {
     /**

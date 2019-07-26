@@ -10,18 +10,20 @@ import ru.mobilcard.restservice.models.interfaces.Model;
 
 import java.util.Set;
 
-public abstract class BaseController<MapperType, ModelType, IdentifierType> {
+public abstract class BaseController<MapperType extends Mapper<ModelType, IdentifierType>,
+                                    ModelType   extends Model, IdentifierType> {
     @Autowired
-    private BaseFacade<IdentifierType> batisUtils;
+    private BaseFacade<MapperType,ModelType, IdentifierType> baseFacade;
+
     /**
      * method for get collection banks
      * @return Set object mapper
      * */
     @RequestMapping(value = "/get/record/{id}",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Model getRecordById(
+    public ModelType getRecordById(
             @PathVariable(name = "id") IdentifierType id) {
-        return batisUtils.getDictionaryById(id , getMapperClass());
+        return baseFacade.getDictionaryById(id , getMapperClass());
     }
 
     /**
@@ -31,7 +33,7 @@ public abstract class BaseController<MapperType, ModelType, IdentifierType> {
     @RequestMapping(value = "/collection",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
     public Set getCollection() {
-        return batisUtils.getListDictionary(getMapperClass());
+        return baseFacade.getListDictionary(getMapperClass());
     }
 
     /**
@@ -40,10 +42,10 @@ public abstract class BaseController<MapperType, ModelType, IdentifierType> {
      * */
     @RequestMapping(value = "/record/insert",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Model insertRecord(
-            @RequestBody() Object dictionary) {
-        batisUtils.insertRecord(getModelClass().cast(dictionary), Mapper.class);
-        return getModelClass().cast(dictionary);
+    public ModelType insertRecord(
+            @RequestBody() ModelType dictionary) {
+        baseFacade.insertRecord(dictionary, getMapperClass());
+        return dictionary;
     }
 
     /**
@@ -52,9 +54,9 @@ public abstract class BaseController<MapperType, ModelType, IdentifierType> {
      * */
     @RequestMapping(value = "/collection/record/insert",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set insertCollectionRecords(
-            @RequestBody() Set dictionaries) {
-        batisUtils.insertCollectionRecords(dictionaries, getModelClass());
+    public Set<ModelType> insertCollectionRecords(
+            @RequestBody() Set<ModelType> dictionaries) {
+        baseFacade.insertCollectionRecords(dictionaries, getMapperClass());
         return dictionaries;
     }
 
@@ -64,9 +66,9 @@ public abstract class BaseController<MapperType, ModelType, IdentifierType> {
      * */
     @RequestMapping(value = "/record/delete",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Model deleteRecord(
-            @RequestBody() Object dictionary) {
-        batisUtils.deleteRecord(getModelClass().cast(dictionary), getMapperClass());
+    public ModelType deleteRecord(
+            @RequestBody() ModelType dictionary) {
+        baseFacade.deleteRecord(getModelClass().cast(dictionary), getMapperClass());
         return getModelClass().cast(dictionary);
     }
 
@@ -76,9 +78,9 @@ public abstract class BaseController<MapperType, ModelType, IdentifierType> {
      * */
     @RequestMapping(value = "/collection/record/delete",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set deleteCollectionRecords(
-            @RequestBody() Set dictionaries) {
-        batisUtils.deleteCollectionRecords(dictionaries, getMapperClass());
+    public Set<ModelType> deleteCollectionRecords(
+            @RequestBody() Set<ModelType> dictionaries) {
+        baseFacade.deleteCollectionRecords(dictionaries, getMapperClass());
         return dictionaries;
     }
 
@@ -88,8 +90,8 @@ public abstract class BaseController<MapperType, ModelType, IdentifierType> {
      * */
     @RequestMapping(value = "/update/record",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Model updateRecord(@RequestBody() Object dictionary) {
-        batisUtils.updateRecord(getModelClass().cast(dictionary), getMapperClass());
+    public ModelType updateRecord(@RequestBody() ModelType dictionary) {
+        baseFacade.updateRecord(getModelClass().cast(dictionary), getMapperClass());
         return getModelClass().cast(dictionary);
     }
 
@@ -99,14 +101,14 @@ public abstract class BaseController<MapperType, ModelType, IdentifierType> {
      * */
     @RequestMapping(value = "/collection/update/record",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set updateCollectionRecord(
-            @RequestBody() Set dictionaries) {
-        batisUtils.updateCollectionRecords(dictionaries, getMapperClass());
+    public Set<ModelType> updateCollectionRecord(
+            @RequestBody() Set<ModelType> dictionaries) {
+        baseFacade.updateCollectionRecords(dictionaries, getMapperClass());
         return dictionaries;
     }
 
-    protected abstract Class getMapperClass();
+    protected abstract Class<MapperType> getMapperClass();
 
-    protected abstract Class<Model> getModelClass();
+    protected abstract Class<ModelType> getModelClass();
 
 }

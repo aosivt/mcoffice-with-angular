@@ -8,68 +8,67 @@ import ru.mobilcard.restservice.models.interfaces.Model;
 
 import java.util.Set;
 
-public class BaseFacade<IdentifierClass> {
+public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
+                        ModelType  extends Model, IdentifierType>  {
 
-    public Model getDictionaryById(IdentifierClass l, Class mapperType) {
+    public ModelType getDictionaryById(IdentifierType l, Class<MapperType> mapper) {
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
-        Mapper m = (Mapper) session.getMapper(mapperType);
-        Model dictionary = m.getById(l);
+        MapperType m = session.getMapper(mapper);
+        ModelType dictionary = m.getById(l);
         session.close();
         return dictionary;
     }
-    public Set getListDictionary(Class type){
+    public Set<ModelType> getListDictionary(Class<MapperType> mapperType){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
-        Mapper m = (Mapper) session.getMapper(type);
-        Set dictionary = m.getCollectionData();
+        MapperType m = session.getMapper(mapperType);
+        Set<ModelType> dictionary = m.getCollectionData();
         session.close();
         return dictionary;
     }
-    public void insertRecord(Model dictionary, Class type){
+    public ModelType insertRecord(ModelType model, Class<MapperType> type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
-        Mapper m = (Mapper) session.getMapper(type);
-        m.insert(dictionary);
+        MapperType m = session.getMapper(type);
+        m.insert(model);
         session.close();
+        return model;
     }
-    public void deleteRecord(Model record, Class type){
+    public ModelType deleteRecord(ModelType record, Class<MapperType> type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
-        Mapper m = (Mapper) session.getMapper(type);
+        MapperType m = session.getMapper(type);
         m.delete(record);
         session.close();
+        return record;
     }
-    public void insertCollectionRecords(Set<Model> records, Class type){
+    public void insertCollectionRecords(Set<ModelType> records, Class<MapperType> type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
-        Mapper m = (Mapper) session.getMapper(type);
-        records.parallelStream()
-                .forEach(record-> m.insert(record));
+        MapperType m = session.getMapper(type);
+        records.forEach(m::insert);
         session.close();
     }
-    public void deleteCollectionRecords(Set<Model> records, Class type){
+    public void deleteCollectionRecords(Set<ModelType> records, Class<MapperType> type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
-        Mapper m = (Mapper) session.getMapper(type);
-        records.parallelStream()
-                .forEach(record-> m.delete(record));
+        MapperType m = session.getMapper(type);
+        records.forEach(m::delete);
         session.close();
     }
-
-    public void updateRecord(Model dictionary, Class type){
+    public void updateRecord(ModelType record, Class<MapperType> type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
-        Mapper m = (Mapper) session.getMapper(type);
-        m.insert(dictionary);
+        MapperType m = session.getMapper(type);
+        m.insert(record);
         session.close();
     }
-    public void updateCollectionRecords(Set<Model> records, Class type){
+    public void updateCollectionRecords(Set<ModelType> records, Class<MapperType> type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
-        Mapper m = (Mapper) session.getMapper(type);
-        records.parallelStream()
-                .forEach(record-> m.delete(record));
+        MapperType m = session.getMapper(type);
+        records.forEach(m::delete);
         session.close();
     }
 }

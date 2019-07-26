@@ -15,11 +15,11 @@ import ru.mobilcard.restservice.fasades.BaseFacade;
 public class BankController extends BaseController<BankMapper,BankModel, Long> {
 
     @Override
-    protected Class getMapperClass(){
+    protected Class<BankMapper> getMapperClass(){
         return BankMapper.class;
     }
     @Override
-    protected Class getModelClass(){
+    protected Class<BankModel> getModelClass(){
         return BankModel.class;
     }
 
