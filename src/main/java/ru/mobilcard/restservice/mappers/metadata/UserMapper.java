@@ -19,4 +19,7 @@ public interface UserMapper extends Mapper<UserModel, Long> {
 
     @Override
     void delete(UserModel model);
+
+    @Override
+    void update(UserModel model);
 }

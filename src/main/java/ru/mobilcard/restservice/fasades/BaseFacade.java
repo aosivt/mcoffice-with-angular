@@ -32,6 +32,7 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
         m.insert(model);
+        session.commit();
         session.close();
         return model;
     }
@@ -48,6 +49,7 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
         records.forEach(m::insert);
+        session.commit();
         session.close();
     }
     public void deleteCollectionRecords(Set<ModelType> records, Class<MapperType> type){
@@ -55,20 +57,22 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
         records.forEach(m::delete);
+        session.commit();
         session.close();
     }
     public void updateRecord(ModelType record, Class<MapperType> type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
-        m.insert(record);
+        m.update(record);
         session.close();
     }
     public void updateCollectionRecords(Set<ModelType> records, Class<MapperType> type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
-        records.forEach(m::delete);
+        records.forEach(m::update);
+        session.commit();
         session.close();
     }
 }

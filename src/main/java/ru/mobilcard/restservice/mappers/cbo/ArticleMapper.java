@@ -20,4 +20,7 @@ public interface ArticleMapper extends Mapper<ArticleModel, String> {
 
     @Override
     void delete(ArticleModel model);
+
+    @Override
+    void update(ArticleModel model);
 }
