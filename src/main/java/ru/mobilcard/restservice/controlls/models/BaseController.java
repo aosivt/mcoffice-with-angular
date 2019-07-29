@@ -88,7 +88,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * method for update record inside dictionary
      * @return Dictionary update directory
      * */
-    @RequestMapping(value = "/update/record",method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/record/update",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
     public ModelType updateRecord(@RequestBody() ModelType dictionary) {
         baseFacade.updateRecord(getModelClass().cast(dictionary), getMapperClass());
@@ -99,7 +99,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * method for get collection banks
      * @return @return Set<Dictionary> updated collection directory
      * */
-    @RequestMapping(value = "/collection/update/record",method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/collection/record/update",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
     public Set<ModelType> updateCollectionRecord(
             @RequestBody() Set<ModelType> dictionaries) {
