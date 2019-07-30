@@ -22,4 +22,13 @@ public interface UserMapper extends Mapper<UserModel, Long> {
 
     @Override
     void update(UserModel model);
+
+    @Override
+    void insertCollection(Set<UserModel> model);
+
+    @Override
+    void deleteCollection(Set<UserModel> model);
+
+    @Override
+    void updateCollection(Set<UserModel> model);
 }

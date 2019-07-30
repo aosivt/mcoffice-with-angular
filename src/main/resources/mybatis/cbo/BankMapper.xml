@@ -33,8 +33,60 @@
                 #{bankState}::"types".unitdisablestate);
     </insert>
 
+    <insert id="insertCollection" parameterType="java.util.Set">
+        insert into cbo.banks
+        (bankbik,koraccount,nname,nameshort,inn,kpp,bank_state)
+        values
+        <foreach collection="collection" item="element" index="index" separator=",">
+            (   #{element.bankBik},
+                #{element.korAccount},
+                #{element.name},
+                #{element.nameShort},
+                #{element.inn},
+                #{element.kpp},
+                #{element.bankState}::"types".unitdisablestate  )
+        </foreach>
+<!--        SELECT * FROM dual-->
+    </insert>
+
     <delete id="delete">
-        "delete from cbo.banks where id = #{bank.id}"
+        delete from cbo.banks where id = #{id}
     </delete>
+
+    <delete id="deleteCollection" parameterType="java.util.Set">
+        delete from cbo.banks where id in (
+        <foreach collection="collection" item="element" index="index" separator=",">
+            #{element.id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update cbo.banks set
+        bankbik = #{bankBik},
+        koraccount = #{korAccount},
+        nname = #{name},
+        nameshort = #{nameShort},
+        inn = #{inn},
+        kpp = #{kpp},
+        bank_state = #{bankState}::"types".unitdisablestate
+        where id = #{id}
+    </update>
+
+    <update id="updateCollection">
+        BEGIN;
+        <foreach collection="collection" item="element" index="index" separator=";">
+            update cbo.banks set
+            bankbik = #{element.bankBik},
+            koraccount = #{element.korAccount},
+            nname = #{element.name},
+            nameshort = #{element.nameShort},
+            inn = #{element.inn},
+            kpp = #{element.kpp},
+            bank_state = #{element.bankState}::"types".unitdisablestate
+            where id = #{element.id}
+        </foreach>;
+        END;
+    </update>
 
 </mapper>
