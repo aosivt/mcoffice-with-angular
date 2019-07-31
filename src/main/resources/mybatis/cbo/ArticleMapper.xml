@@ -39,8 +39,87 @@
                 id_pricegroup, id_parent, articletype,
                 flg_disable, note, unittype, has_mrc, id_tax_system
         FROM cbo.cbo_articles a where a.external_str_id = #{externalStrId};
-
     </select>
 
+    <insert id="insert">
+        insert into cbo.cbo_articles (external_str_id, name1, name2,
+                                        ecrshortname, ecrlongname, id_market,
+                                        id_pricegroup, id_parent, articletype,
+                                        flg_disable, note, unittype, has_mrc, id_tax_system)
+        VALUES(
+        #{externalStrId},#{name1},#{name2},#{ecrshortname},#{ecrlongname},
+        #{idMarket},#{idPricegroup},#{idParent},#{articletype},#{flgDisable},
+        #{note},#{unittype},#{hasMrc},#{idTaxSystem});
+    </insert>
+
+    <insert id="insertCollection" parameterType="java.util.Set">
+        insert into cbo.cbo_articles
+        (external_str_id, name1, name2,
+        ecrshortname, ecrlongname, id_market,
+        id_pricegroup, id_parent, articletype,
+        flg_disable, note, unittype, has_mrc, id_tax_system)
+        values
+        <foreach collection="collection" item="element" index="index" separator=",">
+            (
+            #{externalStrId},#{name1},#{name2},#{ecrshortname},#{ecrlongname},
+            #{idMarket},#{idPricegroup},#{idParent},#{articletype},#{flgDisable},
+            #{note},#{unittype},#{hasMrc},#{idTaxSystem})
+        </foreach>
+        <!--        SELECT * FROM dual-->
+    </insert>
+
+    <delete id="delete">
+        delete from cbo.cbo_articles where external_str_id = #{externalStrId};
+    </delete>
+
+    <delete id="deleteCollection" parameterType="java.util.Set">
+        delete from cbo.cbo_articles where external_str_id in (
+        <foreach collection="collection" item="element" index="index" separator=",">
+            #{externalStrId}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update cbo.cbo_articles set
+        external_str_id = #{externalStrId},
+        name1 = #{name1},
+        name2 = #{name2},
+        ecrshortname = #{ecrshortname},
+        ecrlongname = #{ecrlongname},
+        id_market = #{idMarket},
+        id_pricegroup = #{idPricegroup},
+        id_parent = #{idParent},
+        articletype = #{articletype},
+        flg_disable = #{flgDisable},
+        note = #{note},
+        unittype = #{unittype},
+        has_mrc = #{hasMrc},
+        id_tax_system = #{idTaxSystem}
+        where id = #{id}
+    </update>
+
+    <update id="updateCollection">
+        BEGIN;
+        <foreach collection="collection" item="element" index="index" separator=";">
+            update cbo.banks set
+            external_str_id = #{externalStrId},
+            name1 = #{name1},
+            name2 = #{name2},
+            ecrshortname = #{ecrshortname},
+            ecrlongname = #{ecrlongname},
+            id_market = #{idMarket},
+            id_pricegroup = #{idPricegroup},
+            id_parent = #{idParent},
+            articletype = #{articletype},
+            flg_disable = #{flgDisable},
+            note = #{note},
+            unittype = #{unittype},
+            has_mrc = #{hasMrc},
+            id_tax_system = #{idTaxSystem}
+            where external_str_id = #{externalStrId};
+        </foreach>;
+        END;
+    </update>
 
 </mapper>

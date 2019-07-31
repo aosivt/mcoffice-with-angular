@@ -22,4 +22,13 @@ public interface BankMapper extends Mapper<BankModel, Long> {
     @Override
     void update(BankModel model);
 
+    @Override
+    void insertCollection(Set<BankModel> model);
+
+    @Override
+    void deleteCollection(Set<BankModel> model);
+
+    @Override
+    void updateCollection(Set<BankModel> model);
+
 }

@@ -9,6 +9,9 @@ public interface Mapper<ModelType extends Model,IdentifierType> {
     ModelType getById(IdentifierType id);
     Set<ModelType> getCollectionData();
     void insert(ModelType model);
+    void insertCollection(Set<ModelType> model);
     void delete(ModelType model);
+    void deleteCollection(Set<ModelType> model);
     void update(ModelType model);
+    void updateCollection(Set<ModelType> model);
 }

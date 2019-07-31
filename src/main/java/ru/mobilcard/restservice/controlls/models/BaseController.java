@@ -1,5 +1,6 @@
 package ru.mobilcard.restservice.controlls.models;
 
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +69,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
     @CrossOrigin(origins = "*")
     public ModelType deleteRecord(
             @RequestBody() ModelType dictionary) {
-        baseFacade.deleteRecord(getModelClass().cast(dictionary), getMapperClass());
+        baseFacade.deleteRecord(dictionary, getMapperClass());
         return getModelClass().cast(dictionary);
     }
 
@@ -91,7 +92,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
     @RequestMapping(value = "/record/update",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
     public ModelType updateRecord(@RequestBody() ModelType dictionary) {
-        baseFacade.updateRecord(getModelClass().cast(dictionary), getMapperClass());
+        baseFacade.updateRecord(dictionary, getMapperClass());
         return getModelClass().cast(dictionary);
     }
 

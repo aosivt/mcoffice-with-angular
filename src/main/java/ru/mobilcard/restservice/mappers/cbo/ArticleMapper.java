@@ -23,4 +23,13 @@ public interface ArticleMapper extends Mapper<ArticleModel, String> {
 
     @Override
     void update(ArticleModel model);
+
+    @Override
+    void insertCollection(Set<ArticleModel> model);
+
+    @Override
+    void deleteCollection(Set<ArticleModel> model);
+
+    @Override
+    void updateCollection(Set<ArticleModel> model);
 }
