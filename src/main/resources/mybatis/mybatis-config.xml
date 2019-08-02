@@ -27,5 +27,6 @@
         <mapper resource="mybatis/metadata/UserMapper.xml"/>
         <mapper resource="mybatis/cbo/ArticleMapper.xml"/>
         <mapper resource="mybatis/cbo/BankMapper.xml"/>
+        <mapper resource="mybatis/cbo/Tag1214WayPaymentMapper.xml"/>
     </mappers>
 </configuration>
