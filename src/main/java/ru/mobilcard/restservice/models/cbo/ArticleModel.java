@@ -8,14 +8,14 @@ public class ArticleModel implements Model {
     private String name2;
     private String ecrshortname;
     private String ecrlongname;
-    private String idMarket;
+    private Long idMarket;
     private String idPricegroup;
-    private String idParent;
+    private Long idParent;
     private String articletype;
     private String flgDisable;
     private String note;
     private String unittype;
-    private String hasMrc;
+    private Boolean hasMrc;
     private String idTaxSystem;
 
 
@@ -64,11 +64,11 @@ public class ArticleModel implements Model {
         this.ecrlongname = ecrlongname;
     }
 
-    public String getIdMarket() {
+    public Long getIdMarket() {
         return idMarket;
     }
 
-    public void setIdMarket(String idMarket) {
+    public void setIdMarket(Long idMarket) {
         this.idMarket = idMarket;
     }
 
@@ -80,11 +80,11 @@ public class ArticleModel implements Model {
         this.idPricegroup = idPricegroup;
     }
 
-    public String getIdParent() {
+    public Long getIdParent() {
         return idParent;
     }
 
-    public void setIdParent(String idParent) {
+    public void setIdParent(Long idParent) {
         this.idParent = idParent;
     }
 
@@ -120,11 +120,11 @@ public class ArticleModel implements Model {
         this.unittype = unittype;
     }
 
-    public String getHasMrc() {
+    public Boolean getHasMrc() {
         return hasMrc;
     }
 
-    public void setHasMrc(String hasMrc) {
+    public void setHasMrc(Boolean hasMrc) {
         this.hasMrc = hasMrc;
     }
 

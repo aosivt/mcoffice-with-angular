@@ -48,7 +48,9 @@
                                         flg_disable, note, unittype, has_mrc, id_tax_system)
         VALUES(
         #{externalStrId},#{name1},#{name2},#{ecrshortname},#{ecrlongname},
-        #{idMarket},#{idPricegroup},#{idParent},#{articletype},#{flgDisable},
+        #{idMarket},#{idPricegroup},#{idParent},
+        #{articletype}::types.article_type,
+        #{flgDisable}::types.unitdisablestate,
         #{note},#{unittype},#{hasMrc},#{idTaxSystem});
     </insert>
 
@@ -62,7 +64,7 @@
         <foreach collection="collection" item="element" index="index" separator=",">
             (
             #{externalStrId},#{name1},#{name2},#{ecrshortname},#{ecrlongname},
-            #{idMarket},#{idPricegroup},#{idParent},#{articletype},#{flgDisable},
+            #{idMarket},#{idPricegroup},#{idParent},#{articletype}::"types".article_type,#{flgDisable},
             #{note},#{unittype},#{hasMrc},#{idTaxSystem})
         </foreach>
         <!--        SELECT * FROM dual-->
@@ -90,13 +92,13 @@
         id_market = #{idMarket},
         id_pricegroup = #{idPricegroup},
         id_parent = #{idParent},
-        articletype = #{articletype},
-        flg_disable = #{flgDisable},
+        articletype = #{articletype}::"types".article_type,
+        flg_disable = #{flgDisable}::types.unitdisablestate,
         note = #{note},
         unittype = #{unittype},
         has_mrc = #{hasMrc},
-        id_tax_system = #{idTaxSystem}
-        where id = #{id}
+        id_tax_system = #{idTaxSystem}::types.taxsystem
+        where external_str_id = #{externalStrId}
     </update>
 
     <update id="updateCollection">
@@ -111,7 +113,7 @@
             id_market = #{idMarket},
             id_pricegroup = #{idPricegroup},
             id_parent = #{idParent},
-            articletype = #{articletype},
+            articletype = #{articletype}::"types".article_type,
             flg_disable = #{flgDisable},
             note = #{note},
             unittype = #{unittype},
