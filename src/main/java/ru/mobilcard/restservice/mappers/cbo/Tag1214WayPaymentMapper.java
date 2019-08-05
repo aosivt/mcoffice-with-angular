@@ -4,6 +4,7 @@ import java.util.Set;
 
 import ru.mobilcard.restservice.mappers.Mapper;
 
+import ru.mobilcard.restservice.models.cbo.BankModel;
 import ru.mobilcard.restservice.models.cbo.Tag1214WayPaymentModel;
 
 
@@ -33,5 +34,8 @@ public interface Tag1214WayPaymentMapper extends Mapper<Tag1214WayPaymentModel, 
 
     @Override
     void updateCollection(Set<Tag1214WayPaymentModel> model);
+
+    @Override
+    Set<Tag1214WayPaymentModel> getByModel(Tag1214WayPaymentModel model);
 
 }

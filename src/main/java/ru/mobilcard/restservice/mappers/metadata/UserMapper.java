@@ -31,4 +31,8 @@ public interface UserMapper extends Mapper<UserModel, Long> {
 
     @Override
     void updateCollection(Set<UserModel> model);
+
+    @Override
+    Set<UserModel> getByModel(UserModel model);
+
 }

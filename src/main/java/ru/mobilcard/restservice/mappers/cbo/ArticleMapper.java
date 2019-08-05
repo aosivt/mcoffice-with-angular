@@ -3,6 +3,7 @@ package ru.mobilcard.restservice.mappers.cbo;
 import ru.mobilcard.restservice.mappers.Mapper;
 
 import ru.mobilcard.restservice.models.cbo.ArticleModel;
+import ru.mobilcard.restservice.models.metadata.UserModel;
 
 
 import java.util.Set;
@@ -32,4 +33,7 @@ public interface ArticleMapper extends Mapper<ArticleModel, String> {
 
     @Override
     void updateCollection(Set<ArticleModel> model);
+
+    @Override
+    Set<ArticleModel> getByModel(ArticleModel model);
 }

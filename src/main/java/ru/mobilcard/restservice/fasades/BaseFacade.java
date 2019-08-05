@@ -19,6 +19,15 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         session.close();
         return dictionary;
     }
+    public Set<ModelType> getDictionaryByModel(ModelType model, Class<MapperType> mapper) {
+        SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
+        SqlSession session = sessionFactory.openSession();
+        MapperType m = session.getMapper(mapper);
+        Set<ModelType> dictionaries = m.getByModel(model);
+        session.close();
+        return dictionaries;
+    }
+
     public Set<ModelType> getListDictionary(Class<MapperType> mapperType){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
