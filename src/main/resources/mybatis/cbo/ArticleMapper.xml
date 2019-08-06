@@ -87,7 +87,7 @@
             and a.id_parent = #{idParent}
         </if>
         <if test="unittype != null">
-            and a.unittype = #{unittype}
+            and a.unittype = #{unittype}::types.measureunittype
         </if>
         <if test="hasMrc != null">
             and a.has_mrc = #{hasMrc}
