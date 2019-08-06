@@ -54,19 +54,19 @@
         FROM cbo.cbo_articles a
         where 1 = 1
         <if test="externalStrId != null" >
-            and a.external_str_id like #{externalStrId} || '%'
+            and a.external_str_id like '%' || #{externalStrId} || '%'
         </if>
         <if test="name1 != null">
-            and a.name1 like #{name1}
+            and lower(a.name1) like lower('%' || #{name1} || '%')
         </if>
         <if test="name2 != null">
-            and a.name2 like #{name2}
+            and lower(a.name2) like lower('%' || #{name2} || '%')
         </if>
         <if test="ecrshortname != null">
-            and a.ecrshortname like #{ecrshortname}
+            and lower(a.ecrshortname) like lower('%' || #{ecrshortname} || '%')
         </if>
         <if test="ecrlongname != null">
-            and a.ecrlongname like #{ecrlongname}
+            and lower(a.ecrlongname) like lower('%' || #{ecrlongname} || '%')
         </if>
         <if test="idMarket != null">
             and a.id_market = #{idMarket}
@@ -81,7 +81,7 @@
             and a.flg_disable = #{flgDisable}::types.unitdisablestate
         </if>
         <if test="note != null">
-            and a.note like #{note}
+            and lower(a.note) like lower('%' || #{note} || '%')
         </if>
         <if test="idParent != null">
             and a.id_parent = #{idParent}
