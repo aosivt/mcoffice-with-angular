@@ -53,4 +53,19 @@
         END;
     </update>
 
+    <select
+            id="getByModel"
+            resultMap="tag1214WayPaymentResultMap">
+
+        select * from cbo.tag1214_way_payment tag
+        where 1 = 1
+        <if test="id != null" >
+            and tag.id = #{id} ||
+        </if>
+        <if test="name != null">
+            and lower(tag.nname) like lower('%' || #{name} || '%')
+        </if>
+
+    </select>
+
 </mapper>

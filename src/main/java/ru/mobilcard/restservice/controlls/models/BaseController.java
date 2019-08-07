@@ -31,6 +31,17 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * method for get collection banks
      * @return Set object mapper
      * */
+    @RequestMapping(value = "/collection/by/model",method = {RequestMethod.GET, RequestMethod.POST})
+    @CrossOrigin(origins = "*")
+    public Set<ModelType> getRecordByModel(
+            @RequestBody() ModelType dictionary) {
+        return baseFacade.getDictionaryByModel(dictionary, getMapperClass());
+    }
+
+    /**
+     * method for get collection banks
+     * @return Set object mapper
+     * */
     @RequestMapping(value = "/collection",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
     public Set getCollection() {

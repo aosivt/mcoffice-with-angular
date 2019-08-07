@@ -1,6 +1,7 @@
 package ru.mobilcard.restservice.mappers.cbo;
 
 import ru.mobilcard.restservice.mappers.Mapper;
+import ru.mobilcard.restservice.models.cbo.ArticleModel;
 import ru.mobilcard.restservice.models.cbo.BankModel;
 
 import java.util.Set;
@@ -30,5 +31,8 @@ public interface BankMapper extends Mapper<BankModel, Long> {
 
     @Override
     void updateCollection(Set<BankModel> model);
+
+    @Override
+    Set<BankModel> getByModel(BankModel model);
 
 }

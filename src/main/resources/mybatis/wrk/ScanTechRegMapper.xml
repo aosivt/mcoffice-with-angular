@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.mobilcard.restservice.mappers.wrk.ScanTechRegMapper">
+    <resultMap id="resultMap" type="ru.mobilcard.restservice.models.wrk.ScanTechRegModel">
+        <id     property="id"           column="id" />
+        <result property="name"         column="nname"/>
+        <result property="numCode"      column="numcode"/>
+
+
+
+    </resultMap>
+
+    <select id="getCollectionData" resultMap="resultMap">
+        select * from wrk.scantech_reg;
+    </select>
+
+    <select id="getById" resultMap="resultMap">
+        select * from wrk.scantech_reg where id = #{id};
+    </select>
+
+    <insert id="insert">
+        insert into wrk.scantech_reg (nname,numcode)
+        VALUES( #{name},
+                #{numCode},
+                );
+    </insert>
+
+    <insert id="insertCollection" parameterType="java.util.Set">
+        insert into wrk.scantech_reg
+        (nname,numcode)
+        values
+        <foreach collection="collection" item="element" index="index" separator=",">
+            ( #{name}, #{numCode}, )
+        </foreach>
+
+    </insert>
+
+    <delete id="delete">
+        delete from wrk.scantech_reg where id = #{id}
+    </delete>
+
+    <delete id="deleteCollection" parameterType="java.util.Set">
+        delete from wrk.scantech_reg where id in (
+        <foreach collection="collection" item="element" index="index" separator=",">
+            #{element.id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update wrk.scantech_reg set
+        nname = #{name},
+        numcode = #{numCode},
+        where id = #{id}
+    </update>
+
+    <update id="updateCollection">
+        BEGIN;
+        <foreach collection="collection" item="element" index="index" separator=";">
+            update wrk.scantech_reg set
+                nname = #{name},
+                numcode = #{numCode},
+            where id = #{id}
+        </foreach>;
+        END;
+    </update>
+
+    <select
+            id="getByModel"
+            resultMap="resultMap">
+
+        select *
+        from wrk.scantech_reg
+        where 1 = 1
+        <if test="name != null">
+            and lower(nname) like lower('%' || #{name} || '%')
+        </if>
+        <if test="numCode != null">
+            and lower(numcode) like lower('%' || #{numCode} || '%')
+        </if>
+        order by nname;
+    </select>
+
+</mapper>

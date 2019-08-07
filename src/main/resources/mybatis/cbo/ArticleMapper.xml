@@ -27,7 +27,8 @@
         SELECT  external_str_id, name1, name2, ecrshortname, ecrlongname, id_market,
                 id_pricegroup, id_parent, articletype,
                 flg_disable, note, unittype, has_mrc, id_tax_system
-        FROM cbo.cbo_articles;
+        FROM cbo.cbo_articles a
+        order by a.ecrshortname;
     </select>
 
     <select
@@ -38,7 +39,63 @@
                 ecrshortname, ecrlongname, id_market,
                 id_pricegroup, id_parent, articletype,
                 flg_disable, note, unittype, has_mrc, id_tax_system
-        FROM cbo.cbo_articles a where a.external_str_id = #{externalStrId};
+        FROM cbo.cbo_articles a where a.external_str_id = #{externalStrId}
+        order by a.ecrshortname;
+    </select>
+
+    <select
+            id="getByModel"
+            resultMap="articleResultMap">
+
+        SELECT  external_str_id, name1, name2,
+        ecrshortname, ecrlongname, id_market,
+        id_pricegroup, id_parent, articletype,
+        flg_disable, note, unittype, has_mrc, id_tax_system
+        FROM cbo.cbo_articles a
+        where 1 = 1
+        <if test="externalStrId != null" >
+            and a.external_str_id like '%' || #{externalStrId} || '%'
+        </if>
+        <if test="name1 != null">
+            and lower(a.name1) like lower('%' || #{name1} || '%')
+        </if>
+        <if test="name2 != null">
+            and lower(a.name2) like lower('%' || #{name2} || '%')
+        </if>
+        <if test="ecrshortname != null">
+            and lower(a.ecrshortname) like lower('%' || #{ecrshortname} || '%')
+        </if>
+        <if test="ecrlongname != null">
+            and lower(a.ecrlongname) like lower('%' || #{ecrlongname} || '%')
+        </if>
+        <if test="idMarket != null">
+            and a.id_market = #{idMarket}
+        </if>
+        <if test="idPricegroup != null">
+            and a.id_pricegroup = #{idPricegroup}
+        </if>
+        <if test="articletype != null">
+            and a.articletype = #{articletype}::types.article_type
+        </if>
+        <if test="flgDisable != null">
+            and a.flg_disable = #{flgDisable}::types.unitdisablestate
+        </if>
+        <if test="note != null">
+            and lower(a.note) like lower('%' || #{note} || '%')
+        </if>
+        <if test="idParent != null">
+            and a.id_parent = #{idParent}
+        </if>
+        <if test="unittype != null">
+            and a.unittype = #{unittype}::types.measureunittype
+        </if>
+        <if test="hasMrc != null">
+            and a.has_mrc = #{hasMrc}
+        </if>
+        <if test="idTaxSystem != null">
+            and a.id_tax_system = #{idTaxSystem}
+        </if>
+            order by a.ecrshortname;
     </select>
 
     <insert id="insert">

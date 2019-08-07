@@ -89,4 +89,35 @@
         END;
     </update>
 
+    <select
+            id="getByModel"
+            resultMap="bankResultMap">
+
+        select bankbik,koraccount,nname,nameshort,inn,kpp,bank_state
+        from cbo.banks b
+        where 1 = 1
+        <if test="bankBik != null" >
+            and b.bankbik like '%' || #{bankBik} || '%'
+        </if>
+        <if test="korAccount != null">
+            and b.koraccount like '%' || #{korAccount} || '%'
+        </if>
+        <if test="name != null">
+            and lower(b.nname) like lower('%' || #{name} || '%')
+        </if>
+        <if test="nameShort != null">
+            and lower(b.nameshort) like lower('%' || #{nameShort} || '%')
+        </if>
+        <if test="inn != null">
+            and b.inn like '%' ||  #{inn} || '%'
+        </if>
+        <if test="kpp != null">
+            and b.kpp = like '%' || #{kpp}  || '%'
+        </if>
+        <if test="bankState != null">
+            and b.bank_state = #{bankState}::"types".unitdisablestate
+        </if>
+        order by b.nname;
+    </select>
+
 </mapper>

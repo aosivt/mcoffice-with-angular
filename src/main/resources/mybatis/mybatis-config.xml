@@ -25,8 +25,12 @@
     <mappers>
 <!--        <package name="ru.mobilcard.restservice.mappers"/>-->
         <mapper resource="mybatis/metadata/UserMapper.xml"/>
+
         <mapper resource="mybatis/cbo/ArticleMapper.xml"/>
         <mapper resource="mybatis/cbo/BankMapper.xml"/>
+        <mapper resource="mybatis/cbo/CountryMapper.xml"/>
         <mapper resource="mybatis/cbo/Tag1214WayPaymentMapper.xml"/>
+
+        <mapper resource="mybatis/wrk/ScanTechRegMapper.xml"/>
     </mappers>
 </configuration>
