@@ -54,7 +54,7 @@
         FROM cbo.cbo_articles a
         where 1 = 1
         <if test="externalStrId != null" >
-            and a.external_str_id like '%' || #{externalStrId} || '%'
+            and a.external_str_id like #{externalStrId} || '%'
         </if>
         <if test="name1 != null">
             and lower(a.name1) like lower('%' || #{name1} || '%')
