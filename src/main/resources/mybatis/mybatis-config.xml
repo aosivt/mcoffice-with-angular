@@ -30,6 +30,8 @@
         <mapper resource="mybatis/cbo/BankMapper.xml"/>
         <mapper resource="mybatis/cbo/CountryMapper.xml"/>
         <mapper resource="mybatis/cbo/Tag1214WayPaymentMapper.xml"/>
+        <mapper resource="mybatis/cbo/TaxDocDirMapper.xml"/>
+        <mapper resource="mybatis/cbo/TaxMapper.xml"/>
 
         <mapper resource="mybatis/wrk/ScanTechRegMapper.xml"/>
     </mappers>

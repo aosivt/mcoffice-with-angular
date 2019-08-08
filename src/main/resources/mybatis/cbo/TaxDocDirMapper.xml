@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.mobilcard.restservice.mappers.cbo.TaxDocDirMapper">
+    <resultMap id="resultMap" type="ru.mobilcard.restservice.models.cbo.TaxDocDirModel">
+        <id     property="id"           column="id" />
+        <result property="taxId"        column="taxid"/>
+        <result property="docDirection" column="doc_dir"/>
+<!--        <collection property="tax"-->
+<!--            ofType="ru.mobilcard.restservice.models.cbo.TaxModel"-->
+<!--            resultMap="TaxResult"-->
+<!--            columnPrefix="tax_"/>-->
+        <association property="tax" resultMap="TaxResult"/>
+    </resultMap>
+
+    <resultMap id="TaxResult" type="ru.mobilcard.restservice.models.cbo.TaxModel">
+        <id     property="id"           column="id" />
+        <result property="name"         column="nname"/>
+        <result property="taxValue"     column="tax_value"/>
+        <result property="taxState"     column="tax_state"/>
+        <result property="ecrTaxCode"   column="ecr_tax_code"/>
+    </resultMap>
+
+
+    <select id="getCollectionData" resultMap="resultMap">
+        select * from cbo.tax_docdir tdd
+        inner join cbo.taxs t on tdd.taxid = t.id;
+    </select>
+
+    <select id="getById" resultMap="resultMap">
+        select * from cbo.tax_docdir where id = #{id};
+    </select>
+
+    <insert id="insert">
+        insert into cbo.tax_docdir (taxid, doc_dir)
+        VALUES( #{taxId},
+                #{docDirection}::"types".doc_direction );
+    </insert>
+
+    <insert id="insertCollection" parameterType="java.util.Set">
+        insert into cbo.tax_docdir (taxid, doc_dir)
+        values
+        <foreach collection="collection" item="element" index="index" separator=",">
+            (   #{taxId},
+                #{docDirection}::"types".doc_direction )
+        </foreach>
+<!--        SELECT * FROM dual-->
+    </insert>
+
+    <delete id="delete">
+        delete from cbo.tax_docdir where id = #{id}
+    </delete>
+
+    <delete id="deleteCollection" parameterType="java.util.Set">
+        delete from cbo.tax_docdir where id in (
+        <foreach collection="collection" item="element" index="index" separator=",">
+            #{element.id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update cbo.tax_docdir set
+        taxid = #{taxId},
+        doc_dir = #{docDirection}::"types".doc_direction
+        where id = #{id}
+    </update>
+
+    <update id="updateCollection">
+        BEGIN;
+        <foreach collection="collection" item="element" index="index" separator=";">
+            update cbo.tax_docdir set
+            taxid = #{taxId},
+            doc_dir = #{docDirection}::"types".doc_direction
+            where id = #{id}
+        </foreach>;
+        END;
+    </update>
+
+    <select id="getByModel" resultMap="resultMap">
+        select *
+        from cbo.tax_docdir
+        where 1 = 1
+        <if test="taxId != null">
+            and taxid = #{taxId},
+        </if>
+        <if test="docDirection != null">
+            and doc_dir = #{docDirection}::"types".doc_direction
+        </if>
+
+    </select>
+
+</mapper>
