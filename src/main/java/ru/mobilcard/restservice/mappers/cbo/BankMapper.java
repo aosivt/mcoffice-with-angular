@@ -6,6 +6,7 @@ import ru.mobilcard.restservice.models.cbo.BankModel;
 
 import java.util.Set;
 
+@org.apache.ibatis.annotations.Mapper
 public interface BankMapper extends Mapper<BankModel, Long> {
 
     @Override

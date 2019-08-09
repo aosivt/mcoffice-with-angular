@@ -1,5 +1,6 @@
 package ru.mobilcard.restservice;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver;
@@ -30,33 +31,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setAllowedOrigins("*").withSockJS();
     }
 
-    @Override
-    public void configureWebSocketTransport(WebSocketTransportRegistration webSocketTransportRegistration) {
-
-    }
-
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration channelRegistration) {
-
-    }
-
-    @Override
-    public void configureClientOutboundChannel(ChannelRegistration channelRegistration) {
-
-    }
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> list) {
-
-    }
-
-    @Override
-    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> list) {
-
-    }
-
-    @Override
-    public boolean configureMessageConverters(List<MessageConverter> list) {
-        return false;
-    }
 }

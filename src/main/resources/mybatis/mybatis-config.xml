@@ -32,6 +32,7 @@
         <mapper resource="mybatis/cbo/Tag1214WayPaymentMapper.xml"/>
         <mapper resource="mybatis/cbo/TaxDocDirMapper.xml"/>
         <mapper resource="mybatis/cbo/TaxMapper.xml"/>
+        <mapper resource="mybatis/cbo/FuelEcologicalClassMapper.xml"/>
 
         <mapper resource="mybatis/wrk/ScanTechRegMapper.xml"/>
     </mappers>
