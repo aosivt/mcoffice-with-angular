@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.mobilcard.mcoffice.database.mappers.cbo.CountryMapper">
+    <resultMap id="bankResultMap" type="ru.mobilcard.mcoffice.database.models.cbo.CountryModel">
+        <id     property="id"           column="id" />
+        <result property="name"         column="nname"/>
+        <result property="nameShort"    column="nameshort"/>
+        <result property="countryEn13" column="countryen13"/>
+
+
+    </resultMap>
+
+    <select id="getCollectionData" resultMap="bankResultMap">
+        select * from cbo.countries;
+    </select>
+
+    <select id="getById" resultMap="bankResultMap">
+        select * from cbo.countries c where c.id = #{id};
+    </select>
+
+    <insert id="insert">
+        insert into cbo.countries (nname,nameshort,countryen13)
+        VALUES( #{name},
+                #{nameShort},
+                #{countryEn13},
+                );
+    </insert>
+
+    <insert id="insertCollection" parameterType="java.util.Set">
+        insert into cbo.countries
+        (nname,nameshort,countryen13)
+        values
+        <foreach collection="collection" item="element" index="index" separator=",">
+            (   #{name},
+                #{nameShort},
+                #{countryEn13},  )
+        </foreach>
+
+    </insert>
+
+    <delete id="delete">
+        delete from cbo.countries where id = #{id}
+    </delete>
+
+    <delete id="deleteCollection" parameterType="java.util.Set">
+        delete from cbo.countries where id in (
+        <foreach collection="collection" item="element" index="index" separator=",">
+            #{element.id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update cbo.countries set
+        nname = #{name},
+        nameshort = #{nameShort},
+        countryen13 = #{countryEn13}
+        where id = #{id}
+    </update>
+
+    <update id="updateCollection">
+        BEGIN;
+        <foreach collection="collection" item="element" index="index" separator=";">
+            update cbo.countries set
+            nname = #{name},
+            nameshort = #{nameShort},
+            countryen13 = #{countryEn13}
+            where id = #{id}
+        </foreach>;
+        END;
+    </update>
+
+    <select
+            id="getByModel"
+            resultMap="bankResultMap">
+
+        select *
+        from cbo.countries c
+        where 1 = 1
+        <if test="name != null">
+            and lower(b.nname) like lower('%' || #{name} || '%')
+        </if>
+        <if test="nameShort != null">
+            and lower(b.nameshort) like lower('%' || #{nameShort} || '%')
+        </if>
+        <if test="countryEn13 != null">
+            and b.countryen13 like '%' ||  #{countryEn13} || '%'
+        </if>
+        order by b.nname;
+    </select>
+
+</mapper>
