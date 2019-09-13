@@ -1,13 +1,3 @@
-*.properties
-target
-.idea
-pom.xml
-*.iml
-/out/*
-/services/pom.xml
-/client/pom.xml
-client.iml
-/client/src/main/web/node/
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
@@ -17,10 +7,10 @@ client.iml
 # Only exists if Bazel was run
 /bazel-out
 
-# dependencies
+# dependencies предвед
 /node_modules
-/node/*
-
+/node
+*.class
 # profiling files
 chrome-profiler-events.json
 speed-measure-plugin.json

@@ -1,0 +1,30 @@
+<app-toolbar-back-office [title]="title"></app-toolbar-back-office>
+<div class="parent-card-login-form">
+    <mat-card class="card-login-form mat-elevation-z20" >
+        <mat-card-content>
+            <form class="login-form">
+                    <mat-form-field class="username-login">
+                    <input (input)="username = $event.target.value" matInput placeholder="Имя:"
+                     [value]="username"
+                     (keyup.esc)="clear()"
+                     (keyup.esc)="login()"
+                     >
+                    </mat-form-field>
+                    <mat-form-field class="password-login">
+                        <input (input)="password = $event.target.value" 
+                        type="password" matInput placeholder="Пароль:"
+                        [value]="password"
+                        (keyup.esc)="clear()"
+                        (keyup.enter)="login()"
+                        >
+                    </mat-form-field>
+                </form>
+        </mat-card-content>
+        <mat-card-actions class="login-form-action">
+            <button mat-raised-button (click)="login()">Вход</button>
+            <button mat-raised-button (click)="clear()">Отмена</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+
+  

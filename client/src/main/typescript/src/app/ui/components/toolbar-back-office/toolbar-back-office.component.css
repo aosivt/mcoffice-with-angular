@@ -1,0 +1,13 @@
+.toolbar-back-office {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(21, 85, 185, 1);
+    text-shadow: none;
+    color: #ffffff;
+    font-family: "Roboto", sans-serif;
+  }
+  .title-toolbar {
+    margin-left: 15px;
+  }

@@ -1,0 +1,38 @@
+<div style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuPosition.x"
+    [style.top]="contextMenuPosition.y"
+    [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+    <ng-template matMenuContent let-item="">
+        <button mat-menu-item [matMenuTriggerFor]="filter">Настройка фильтра</button>
+        <button mat-menu-item [matMenuTriggerFor]="filedsFilter">Отображаемые поля таблици</button>
+        <button mat-menu-item [matMenuTriggerFor]="configPagination">Настройка количества строк в таблице</button>
+    </ng-template>
+</mat-menu>
+<mat-menu #filter="matMenu">
+        <button mat-menu-item (click)="clearFilter()">Очистить фильтр</button>
+        
+</mat-menu>
+<mat-menu #filedsFilter="matMenu">
+        <span *ngFor="let item of this.parentTable.displayedColumnsForFilter">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          [checked]="this.parentTable.isHideDisplayColumns(item)"
+                          (change)="switchFilterField(item)">
+                {{parentTable.getViewHeader(item)}}
+            </mat-checkbox>
+            <br>
+                <!-- <button mat-menu-item (click)="$event.stopPropagation()" > -->
+                    <!-- <mat-icon *ngIf="this.parentTable.isHideDisplayColumns(item)" -->
+                                <!-- (click)=switchFilterField(item)>done</mat-icon> -->
+                    
+                <!-- </button> -->
+        </span>
+</mat-menu>
+<mat-menu #configPagination="matMenu">
+    <span *ngFor="let item of this.parentTable._countElementInsideTable;let i = index">
+        <button mat-menu-item (click)="setCountElementInsideTable(i)">
+            {{item}}
+        </button>
+    </span>
+</mat-menu>
