@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>{{parentEditor.data.name}}</h1>
+<div mat-dialog-content>
+<span *ngFor="let item of parentEditor.data.viewRow; let i = index">
+        <span *ngIf="isTextField(item.typeView)">
+          <mat-form-field  >
+              <input matInput 
+                      placeholder={{item.value}}
+                          (keyup)="fieldTempData(item.key, $event.target.value)"
+                                  [value]="getValueFromDataRow(item)">
+          </mat-form-field>
+        </span>
+        <span *ngIf="isSelectEnumField(item.typeView)">
+          <mat-form-field  >
+            <mat-label>{{item.value}}</mat-label>
+            <mat-select [(ngModel)]="parentEditor.data.dataRow[item.key]">
+                <mat-option *ngFor="let enumDb of getValuesFromEnumType(item)" 
+                            [value]="enumDb.enumName">{{enumDb.text}}
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </span>
+        <span *ngIf="isCheckBoxField(item.typeView)">
+            <section>
+                <mat-checkbox [(ngModel)]="parentEditor.data.dataRow[item.key]">{{item.value}}</mat-checkbox>
+            </section>
+        </span>
+</span>
+</div>
+<div mat-dialog-actions>
+  <span *ngIf="!this.parentEditor.data.isOnlyView">
+      <button mat-button (click)="click()" cdkFocusInitial>Сохранить</button>
+  </span>
+  <span *ngIf="!this.parentEditor.data.isOnlyView">
+      <button mat-button (click)="clickCopyButton()" cdkFocusInitial>Копировать</button>
+  </span>
+  <span *ngIf="!this.parentEditor.data.isOnlyView">
+      <button mat-button (click)="clickDeletedButton()" cdkFocusInitial>Удалить</button>
+  </span>
+  <button mat-button (click)="parentEditor.onNoClick()">Отмена</button>
+</div>

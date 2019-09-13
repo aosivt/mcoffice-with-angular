@@ -1,0 +1,28 @@
+.card-login-form {
+    max-width: 400px;
+    max-height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.login-form > *{
+    width: 100%;
+    margin: auto;
+}
+.login-form-action > *{
+    width: 50%;
+    margin: auto;
+}
+.parent-card-login-form{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: auto;
+}
+.mat-raised-button:hover {
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.14), 
+                0 1px 15px 0 rgba(0, 0, 0, 0.12),
+                0 2px 9px -1px rgba(0, 0, 0, 0.3);
+}

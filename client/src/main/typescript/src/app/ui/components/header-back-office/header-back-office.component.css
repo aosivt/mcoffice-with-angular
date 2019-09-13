@@ -1,0 +1,57 @@
+.header-back-office-container {
+    position: absolute;
+    top: 70px;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+  }
+
+  p.tree-name {
+    font-size: 8pt;
+  }
+  
+  .main-menu-sidenav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 480px;
+    
+  }
+   
+  .back-office-content-card {
+    max-width: 100%;
+    height: 100%;
+  }
+  .name-ul:hover {
+    -webkit-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+    transform: scale(1.02);
+    /* background-color: rgba(21, 84, 185, 0.151); */
+    box-shadow: 
+        0 8px 10px -5px rgba(0, 0, 0, 0.3),
+        0 16px 24px 2px rgba(0, 0, 0, 0.14), 
+        0 6px 30px 5px rgba(0, 0, 0, 0.12), 
+        0 8px 10px -5px rgba(0, 0, 0, 0.3);
+  }
+  .name-ul:active {
+    -webkit-transform: scale(0.902);
+    -ms-transform: scale(0.902);
+    transform: scale(0.902);
+    background-color: rgba(21, 84, 185, 0.151);
+    box-shadow: 
+       0 6px 30px 5px rgba(0, 0, 0, 0.12), 
+  }
+  .container-mcoffice-form{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: auto;
+  }
+  
+  /* .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  } */
+  

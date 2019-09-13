@@ -1,0 +1,79 @@
+<mat-progress-bar *ngIf="securityService.isPostAuth" mode="indeterminate"></mat-progress-bar>  
+<ng-container *ngIf="!securityService.isPostAuth" class="container-mcoffice-form">
+  
+  <app-toolbar-back-office [title]="title" [showMenu]=true (click)="sidenav.toggle()">
+  </app-toolbar-back-office>
+  
+  <mat-sidenav-container class="header-back-office-container">
+      <mat-sidenav #sidenav mode="side" opened class="main-menu-sidenav mat-elevation-z10"
+                   [fixedInViewport]="options.value.fixed" [fixedTopGap]="options.value.top"
+                   [fixedBottomGap]="options.value.bottom">
+        
+          <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" >
+            <!-- This is the tree node template for leaf nodes [routerLink]="[{ outlets: { secondRouter: [node.action] } }]" 
+            (click)="addTab(node.name, [{ outlets: { secondRouter: [node.action] } }])"
+            -->
+            <mat-tree-node  
+                            [routerLink]="[node.action]"
+                            (click)="addTab(node.name, node.action)"
+                            *matTreeNodeDef="let node" matTreeNodePadding class="name-ul">
+              <!-- use a disabled button to provide padding for tree leaf -->
+              <button mat-icon-button disabled class="tree-name"></button>
+                <!-- <p > -->
+                    <mat-icon class="mat-icon-rtl-mirror">
+                        {{node.icon ? node.icon : 'folder_open'}}
+                    </mat-icon>
+                  {{node.name}}
+                <!-- </p> -->
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding >
+              <button mat-icon-button matTreeNodeToggle
+                      [attr.aria-label]="'toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+              <!-- <p class="tree-name"> -->
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{node.icon ? node.icon : 'folder_open'}}
+                </mat-icon>
+                {{node.name}}
+              <!-- </p> -->
+           </mat-tree-node>
+          </mat-tree>
+      </mat-sidenav>
+  
+      <mat-sidenav-content [formGroup]="options">
+
+       <mat-card class="back-office-content-card">
+          <mat-card-header>
+            <mat-card-subtitle>
+                <nav mat-tab-nav-bar >
+                    <span *ngFor="let link of tabs">
+                    <a mat-tab-link
+                      [routerLink]="link.route"
+                      routerLinkActive #rla="routerLinkActive"
+                      [active]="rla.isActive">{{link.name}}</a>
+                    <button mat-button
+                            [disabled]="tabs.length === 1"
+                            (click)="removeTab(link.route)">
+                            <i class="material-icons">close</i>
+                    </button>
+                  </span>
+                </nav>
+          </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+              <router-outlet ></router-outlet>
+              <!-- <router-outlet name="sidebarContent"></router-outlet> -->
+          </mat-card-content>
+          <mat-card-actions>
+          </mat-card-actions>
+        </mat-card>
+        
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+</ng-container>
+
+ 

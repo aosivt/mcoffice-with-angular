@@ -1,0 +1,7 @@
+<mat-tab-group >
+  <span *ngFor="let item of tabs">
+      <mat-tab *ngIf="item.type=='main'" label={{item.name}}>
+          <app-main-editor [parentEditor]="instance"></app-main-editor>
+      </mat-tab>
+  </span>
+</mat-tab-group>
