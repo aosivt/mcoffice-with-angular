@@ -65,7 +65,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>${basedir}/client/src/main/web/dist/mcoffice/</directory>
+                <directory>${basedir}/client/src/main/typescript/dist/mcoffice/</directory>
                 <targetPath>${basedir}/services/target/classes/static/</targetPath>
                 <filtering>false</filtering>
                 <excludes>
@@ -75,7 +75,7 @@
                 </excludes>
             </resource>
             <resource>
-                <directory>${basedir}/client/src/main/web/dist/mcoffice/</directory>
+                <directory>${basedir}/client/src/main/typescript/dist/mcoffice/</directory>
                 <targetPath>${basedir}/services/target/classes/templates/</targetPath>
                 <filtering>false</filtering>
                 <includes>
