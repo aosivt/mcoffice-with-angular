@@ -37,10 +37,16 @@ export class WebSocketService extends AbstractSocketService {
         } else if (message.result === null) {
             this._isCheckAuth = false;
         }
+        this.checkReceivedAuth();
         this._isPostAuth = false;
         console.log('Message recieved from server :: ' + message);
     }
 
+    private checkReceivedAuth() {
+        if (!this.isCheckAuth) {
+            window.open('https://localhost:8443/login', '_self') ;
+        }
+    }
     get isCheckAuth() {
         return this._isCheckAuth;
     }

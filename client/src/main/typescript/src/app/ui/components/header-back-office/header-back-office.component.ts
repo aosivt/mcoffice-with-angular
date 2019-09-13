@@ -110,9 +110,6 @@ export class HeaderBackOfficeComponent implements OnInit {
     }
   }
   get title(): string {
-    if (this.securityService.isCheckAuth !== null && !this.securityService.isCheckAuth) {
-      window.open('https://localhost:8443/login', '_self') ;
-    }
     return this.toolBar.getBackOfficeTitle();
   }
 }
