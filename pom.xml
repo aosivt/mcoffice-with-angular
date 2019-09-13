@@ -66,8 +66,23 @@
         <resources>
             <resource>
                 <directory>${basedir}/client/src/main/web/dist/mcoffice/</directory>
-                <targetPath>${basedir}/services/src/main/resources/static/</targetPath>
+                <targetPath>${basedir}/services/target/classes/static/</targetPath>
                 <filtering>false</filtering>
+                <excludes>
+                    <exclude>
+                        **/index.html
+                    </exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>${basedir}/client/src/main/web/dist/mcoffice/</directory>
+                <targetPath>${basedir}/services/target/classes/templates/</targetPath>
+                <filtering>false</filtering>
+                <includes>
+                    <include>
+                        **/*.html
+                    </include>
+                </includes>
             </resource>
         </resources>
     </build>

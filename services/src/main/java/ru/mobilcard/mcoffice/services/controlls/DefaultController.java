@@ -21,8 +21,17 @@ public class DefaultController {
      * @return null
      * */
     @RequestMapping(value = "/",method = {RequestMethod.GET, RequestMethod.POST})
-    public Object rootPath(Model model) {
-        return "forward:/index.html";
+    public String rootPath(Model model) {
+        return "index";
+    }
+
+    /**
+     * method empty
+     * @return null
+     * */
+    @RequestMapping(value = "/mcoffice",method = {RequestMethod.GET, RequestMethod.POST})
+    public String mcofficePath(Model model) {
+        return "index";
     }
 
 }

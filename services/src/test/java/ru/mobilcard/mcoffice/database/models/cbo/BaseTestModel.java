@@ -34,17 +34,17 @@ public abstract class BaseTestModel<T extends Model> {
         log.info("closing down myBatis tests");
     }
 
-    @Test
-    public void checkMapper(){
-
-    try{
-        assertCollection();
-        assertCollectionById();
-    } finally {
-        session.close();
-    }
-
-    }
+//    @Test
+//    public void checkMapper(){
+//
+//    try{
+//        assertCollection();
+//        assertCollectionById();
+//    } finally {
+//        session.close();
+//    }
+//
+//    }
 
     protected void assertCollection(){
         List<T> temp = null;
