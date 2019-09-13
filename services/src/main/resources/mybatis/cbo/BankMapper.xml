@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.mobilcard.mcoffice.database.mappers.cbo.BankMapper">
+    <resultMap id="bankResultMap" type="ru.mobilcard.mcoffice.database.models.cbo.BankModel">
+        <id     property="id"           column="id" />
+        <result property="bankBik"      column="bankbik"/>
+        <result property="korAccount"   column="koraccount"/>
+        <result property="name"         column="nname"/>
+        <result property="nameShort"    column="nameshort"/>
+        <result property="inn"          column="inn"/>
+        <result property="kpp"          column="kpp"/>
+        <result property="bankState"    column="bank_state"/>
+    </resultMap>
+
+    <select id="getCollectionData" resultMap="bankResultMap">
+        select * from cbo.banks;
+    </select>
+
+    <select id="getById" resultMap="bankResultMap">
+        select * from cbo.banks b where b.id = #{id};
+    </select>
+
+    <insert id="insert">
+        insert into cbo.banks (bankbik,koraccount,nname,nameshort,inn,kpp,bank_state)
+        VALUES( #{bankBik},
+                #{korAccount},
+                #{name},
+                #{nameShort},
+                #{inn},
+                #{kpp},
+                #{bankState}::"types".unitdisablestate);
+    </insert>
+
+    <insert id="insertCollection" parameterType="java.util.Set">
+        insert into cbo.banks
+        (bankbik,koraccount,nname,nameshort,inn,kpp,bank_state)
+        values
+        <foreach collection="collection" item="element" index="index" separator=",">
+            (   #{element.bankBik},
+                #{element.korAccount},
+                #{element.name},
+                #{element.nameShort},
+                #{element.inn},
+                #{element.kpp},
+                #{element.bankState}::"types".unitdisablestate  )
+        </foreach>
+<!--        SELECT * FROM dual-->
+    </insert>
+
+    <delete id="delete">
+        delete from cbo.banks where id = #{id}
+    </delete>
+
+    <delete id="deleteCollection" parameterType="java.util.Set">
+        delete from cbo.banks where id in (
+        <foreach collection="collection" item="element" index="index" separator=",">
+            #{element.id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update cbo.banks set
+        bankbik = #{bankBik},
+        koraccount = #{korAccount},
+        nname = #{name},
+        nameshort = #{nameShort},
+        inn = #{inn},
+        kpp = #{kpp},
+        bank_state = #{bankState}::"types".unitdisablestate
+        where id = #{id}
+    </update>
+
+    <update id="updateCollection">
+        BEGIN;
+        <foreach collection="collection" item="element" index="index" separator=";">
+            update cbo.banks set
+            bankbik = #{element.bankBik},
+            koraccount = #{element.korAccount},
+            nname = #{element.name},
+            nameshort = #{element.nameShort},
+            inn = #{element.inn},
+            kpp = #{element.kpp},
+            bank_state = #{element.bankState}::"types".unitdisablestate
+            where id = #{element.id}
+        </foreach>;
+        END;
+    </update>
+
+    <select
+            id="getByModel"
+            resultMap="bankResultMap">
+
+        select bankbik,koraccount,nname,nameshort,inn,kpp,bank_state
+        from cbo.banks b
+        where 1 = 1
+        <if test="bankBik != null" >
+            and b.bankbik like '%' || #{bankBik} || '%'
+        </if>
+        <if test="korAccount != null">
+            and b.koraccount like '%' || #{korAccount} || '%'
+        </if>
+        <if test="name != null">
+            and lower(b.nname) like lower('%' || #{name} || '%')
+        </if>
+        <if test="nameShort != null">
+            and lower(b.nameshort) like lower('%' || #{nameShort} || '%')
+        </if>
+        <if test="inn != null">
+            and b.inn like '%' ||  #{inn} || '%'
+        </if>
+        <if test="kpp != null">
+            and b.kpp = like '%' || #{kpp}  || '%'
+        </if>
+        <if test="bankState != null">
+            and b.bank_state = #{bankState}::"types".unitdisablestate
+        </if>
+        order by b.nname;
+    </select>
+
+</mapper>
