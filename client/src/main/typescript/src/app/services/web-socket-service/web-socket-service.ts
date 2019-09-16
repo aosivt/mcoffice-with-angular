@@ -6,6 +6,7 @@ import { JsonRpcRequest } from '../interfaces/security/json-rpc-request';
 import { JsonRpcResponce } from '../interfaces/security/json-rpc-responce';
 import { JsonRpcUserModel } from '../interfaces/security/json-rpc-user-model';
 import { isBoolean } from 'util';
+import { PropertyForConnectionToService } from '../propoty-for-connection-to-service';
 
 @Injectable()
 export class WebSocketService extends AbstractSocketService {
@@ -32,11 +33,13 @@ export class WebSocketService extends AbstractSocketService {
     }
 
     public onMessageReceived(message: JsonRpcResponce) {
+
         if (message.result !== null && isBoolean(message.result)) {
             this._isCheckAuth = message.result;
         } else if (message.result === null) {
             this._isCheckAuth = false;
         }
+
         this.checkReceivedAuth();
         this._isPostAuth = false;
         console.log('Message recieved from server :: ' + message);
@@ -44,7 +47,7 @@ export class WebSocketService extends AbstractSocketService {
 
     private checkReceivedAuth() {
         if (!this.isCheckAuth) {
-            window.open('https://localhost:8443/login', '_self') ;
+            window.open(PropertyForConnectionToService.getSecurityPage(), '_self') ;
         }
     }
     get isCheckAuth() {

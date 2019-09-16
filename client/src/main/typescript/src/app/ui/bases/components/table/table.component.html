@@ -14,7 +14,7 @@
         <button mat-button [disabled]=isMoreOneSelectedRow() (click)=clickEditButton()>Изменить</button>
     </span>
     <span *ngIf="isVisibleButtonPrint()">
-        <button mat-button >Печать</button>
+        <button mat-button (click)=clickPrintButton()>Печать</button>
     </span>
     <span *ngIf="isVisibleButtonCopy()">
         <button mat-button [disabled]=isMoreOneSelectedRow() (click)=clickCopyButton()>Копировать</button>

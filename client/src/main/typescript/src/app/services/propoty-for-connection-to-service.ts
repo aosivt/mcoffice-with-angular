@@ -5,7 +5,9 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class PropertyForConnectionToService {
-    public static HOST_URI      = 'localhost';
+    
+    public static HOST_URI      = '10.74.33.235';
+    public static HOST_URI_SECURITY_SERVICE      = '10.74.33.235';
     public static PORT_URI      = '8444';
     public static NAME_SERVICE  = '/';
     public static PROTOCOL_URI  = 'https';
@@ -33,5 +35,10 @@ export class PropertyForConnectionToService {
                 PropertyForConnectionToService.PORT_URI_SECURITY_SERVICE     +
                 PropertyForConnectionToService.NAME_SERVICE +
                 PropertyForConnectionToService.NAME_SOCKET_SECURITY_SERVICE ;
+    }
+    public static getSecurityPage(): string {
+        return  PropertyForConnectionToService.PROTOCOL_URI + '://' +
+                PropertyForConnectionToService.HOST_URI_SECURITY_SERVICE     + ':'   +
+                PropertyForConnectionToService.PORT_URI_SECURITY_SERVICE     ;
     }
 }

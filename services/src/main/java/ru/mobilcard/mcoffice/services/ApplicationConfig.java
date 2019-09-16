@@ -71,7 +71,7 @@ public class ApplicationConfig {
         connector.setScheme("http");
         connector.setPort(httpPort);
         connector.setSecure(false);
-        connector.setRedirectPort(8443);
+        connector.setRedirectPort(8444);
         return connector;
     }
 }

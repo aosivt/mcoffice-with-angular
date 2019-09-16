@@ -247,6 +247,9 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     }
     return key[item];
   }
+  public clickPrintButton() {
+      console.log(this._dataSource);
+  }
 
   protected configViewWindwowEditor(): ConfigViewWindwowEditor {
     return {
