@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialo
 import { MatDialogConfig } from '@angular/material/dialog/typings';
 import { HttpParams } from '@angular/common/http';
 import { SelectionModel } from '@angular/cdk/collections';
+import { saveAs } from 'file-saver/src/FileSaver';
 
 
 import { DictionaryService } from '../../../../services/dictionary-service';
@@ -15,7 +16,6 @@ import { DictionaryService } from '../../../../services/dictionary-service';
 import { TableEditorComponent } from './inside-components/table-editor/table-editor.component';
 import { FilterTableComponent } from './inside-components/filter-table/filter-table.component';
 import { PrintTableContentComponent } from './inside-components/print-table-content/print-table-content.component';
-
 
 import { EnumType, EnumItemType, IStaticEnum, Enumerable } from 'src/app/ui/bases/types/enums/interfaces/ts-jenum';
 
@@ -52,7 +52,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   _countElementInsideTable: number[] = [5, 10, 20, 30, 50, 100];
   _indexCountElementInsideTable: number = 3;
   config: MatDialogConfig = this.configViewWindwowEditor();
-  _dataSource = new MatTableDataSource([]);
+  _dataSource = new MatTableDataSource<RowResultElement>([]);
 
   filterData: ItemsWindowEditor = {};
 
@@ -153,15 +153,13 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     return this.getPathToServiceCollection() + '/by/model';
   }
 
-  
-  
-  protected isVisibleButtonCopy():    boolean { return false; }
-  protected isVisibleButtonInsert():  boolean { return false; }
-  protected isVisibleButtonDelete():  boolean { return false; }
-  protected isVisibleButtonUpdate():  boolean { return false; }
-  protected isVisibleButtonPrint():   boolean { return false; }
-  protected isVisibleButtonView():    boolean { return false; }
-  
+  protected isVisibleButtonCopy(): boolean { return false; }
+  protected isVisibleButtonInsert(): boolean { return false; }
+  protected isVisibleButtonDelete(): boolean { return false; }
+  protected isVisibleButtonUpdate(): boolean { return false; }
+  protected isVisibleButtonPrint(): boolean { return false; }
+  protected isVisibleButtonView(): boolean { return false; }
+
   getViewHeader(item: string) {
     return this._displayedColumns.find(df => df.key === item).value;
   }
@@ -352,6 +350,25 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
  }
  fieldFilterData(key: string, value: string) {
   this.filterData[key] = value === '' ? null : value;
+}
+downloadFile() {
+  const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+  const header = this.displayedColumns.map(h => this.getViewHeader(h));
+
+  // Object.keys(data[0]);
+  const csv =
+    this.dataSource
+       ._orderData(this.dataSource.filteredData)
+       .map(item => this.displayedColumns
+       .map(key => JSON.stringify(this.getValueFromElement(item, key), replacer))
+       .join(','));
+
+  // data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+  csv.unshift(header.join(','));
+  const csvArray = csv.join('\r\n');
+
+  const blob = new Blob([csvArray], {type: 'text/csv' });
+  saveAs(blob, 'test.csv');
 }
 
   public getInstance(): TableComponent {

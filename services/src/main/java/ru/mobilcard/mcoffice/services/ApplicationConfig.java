@@ -1,6 +1,7 @@
 package ru.mobilcard.mcoffice.services;
 
 
+import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImplExporter;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -66,6 +67,16 @@ public class ApplicationConfig {
         tomcat.addAdditionalTomcatConnectors(redirectConnector());
         return tomcat;
     }
+
+    @Bean
+    public static AutoJsonRpcServiceImplExporter autoJsonRpcServiceImplExporter() {
+        AutoJsonRpcServiceImplExporter exp = new AutoJsonRpcServiceImplExporter();
+        //in here you can provide custom HTTP status code providers etc. eg:
+        //exp.setHttpStatusCodeProvider();
+        //exp.setErrorResolver();
+        return exp;
+    }
+
     private Connector redirectConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");

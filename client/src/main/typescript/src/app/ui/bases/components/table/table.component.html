@@ -22,6 +22,9 @@
     <span *ngIf="isVisibleButtonPrint()">
         <button mat-button (click)=clickPrintButton()>Печать</button>
     </span>
+    <span *ngIf="isVisibleButtonPrint()">
+        <button mat-button (click)=downloadFile()>Сохранить CSV</button>
+    </span>
     <span *ngIf="isVisibleButtonCopy()">
         <button mat-button [disabled]=isMoreOneSelectedRow() (click)=clickCopyButton()>Копировать</button>
     </span>
@@ -109,8 +112,18 @@
 </mat-card>  
 <app-context-menu-table [parentTable]="getInstance()" ></app-context-menu-table>          
 
-<mat-drawer #drawer class="table-right-sidenav" mode="side" position="end">
-  <app-table-editor-sidenav [parentTable]="getInstance()"></app-table-editor-sidenav>
-</mat-drawer>
+  <mat-drawer #drawer class="table-right-sidenav" mode="side" position="end">
+    <mat-card>
+      <mat-card-header>
+
+      </mat-card-header>
+      <mat-card-content>
+          <app-table-editor-sidenav [parentTable]="getInstance()"></app-table-editor-sidenav>
+      </mat-card-content>
+      <mat-card-actions>
+          <button mat-button (click)="drawer.toggle()">Отмена</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-drawer>
 
 </mat-drawer-container>
