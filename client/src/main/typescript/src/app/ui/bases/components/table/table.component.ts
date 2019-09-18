@@ -14,6 +14,7 @@ import { DictionaryService } from '../../../../services/dictionary-service';
 
 import { TableEditorComponent } from './inside-components/table-editor/table-editor.component';
 import { FilterTableComponent } from './inside-components/filter-table/filter-table.component';
+import { PrintTableContentComponent } from './inside-components/print-table-content/print-table-content.component';
 
 
 import { EnumType, EnumItemType, IStaticEnum, Enumerable } from 'src/app/ui/bases/types/enums/interfaces/ts-jenum';
@@ -29,6 +30,8 @@ import { ContextMenuTableComponent } from './inside-components/context-menu-tabl
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabsEditorComponent } from './inside-components/table-editor/interfaces/tabs-editor-component';
 
+
+
 const EMPTY_TABLE_VALUE = '---';
 export const VIEW_EDIT_ROW = true;
 
@@ -38,6 +41,7 @@ export const VIEW_EDIT_ROW = true;
   styleUrls: ['./table.component.css']
 })
 export abstract class TableComponent implements OnInit, AfterViewInit {
+  
   selection = new SelectionModel<RowResultElement>(true, []);
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -122,7 +126,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     return temp;
   }
   protected abstract getRootPath(): string;
-  protected abstract getDisplayedViewCollumns();
+  public abstract getDisplayedViewCollumns(): DisplayedColumnsElements[];
 
   protected getPathToServiceCollection(): string {
     return this.getRootPath() + '/collection';
@@ -232,11 +236,10 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
       console.log(result);
       this._customAction = null;
       this.config.data.isOnlyView = false;
-      
       this.filteredTableData();
     });
     }
-  
+
     public getValueFromElement(key: {}, item: string ) {
     if (key[item] === null) {
       return EMPTY_TABLE_VALUE;
@@ -248,7 +251,24 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     return key[item];
   }
   public clickPrintButton() {
-      console.log(this._dataSource);
+    console.log(this.dataSource._orderData(this.dataSource.filteredData));
+    let printContents;
+    let popupWin;
+    printContents = document.getElementById('print-section').innerHTML;
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(`
+      <html>
+        <head>
+          <title>Print tab</title>
+          <style>
+          //........Customized style.......
+          </style>
+        </head>
+    <body onload="window.print();window.close()">${printContents}</body>
+      </html>`
+    );
+    // popupWin.document.close();
   }
 
   protected configViewWindwowEditor(): ConfigViewWindwowEditor {

@@ -13,7 +13,7 @@ export class Tag1214WayPaymentDictionaryComponent extends TableComponent {
     return 'tag1214_way_payment';
   }
 
-  protected getDisplayedViewCollumns() {
+  public getDisplayedViewCollumns() {
     return [
       {key: 'id',         value: 'Индетификатор',               typeDB:   {},
                           typeView: TypeFieldEditor.TEXT,       view: false},

@@ -20,7 +20,7 @@ export class ArticleDictionaryComponent extends TableComponent {
     return 'article';
   }
 
-  protected getDisplayedViewCollumns() {
+  public getDisplayedViewCollumns() {
     return [
       {key: 'id',             value: 'Индетификатор',         typeDB:   {},
                               typeView: TypeFieldEditor.TEXT,       view: false},

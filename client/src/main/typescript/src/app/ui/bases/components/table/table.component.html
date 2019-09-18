@@ -1,14 +1,20 @@
 <!-- {{selection.selected.length | json }} -->
-<mat-card class="mat-elevation-z10" 
-(contextmenu)="contextMenu.onContextMenu($event)"
+<mat-drawer-container class="table-container">
 
->
+
+<div id="print-section" hidden>
+  <app-print-table-content [parentTable]="getInstance()"></app-print-table-content>
+</div>
+
+<mat-card class="mat-elevation-z10" 
+(contextmenu)="contextMenu.onContextMenu($event)">
   <mat-card-header>
     <span *ngIf="isVisibleButtonView()">
         <button mat-button [disabled]=isMoreOneSelectedRow() (click)=clickViewButton()>Просмотр</button>
     </span>
     <span *ngIf="isVisibleButtonInsert()">
-        <button mat-button (click)=clickInsertButton()>Добавить</button>
+        <!-- <button mat-button (click)="clickInsertButton()">Добавить</button> -->
+        <button mat-button (click)="drawer.toggle()">Добавить</button>
     </span>
     <span *ngIf="isVisibleButtonUpdate()">
         <button mat-button [disabled]=isMoreOneSelectedRow() (click)=clickEditButton()>Изменить</button>
@@ -90,14 +96,10 @@
               </td>
             </ng-container> 
           </span>
-
-          
-          
           <tr mat-header-row *matHeaderRowDef="displayedColumnsWithSelect; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumnsWithSelect;" 
                       class="table-row" 
                       (click)="selection.toggle(row)"></tr>
-          
         </table>
       </div>
       <mat-paginator [length]="resultsLength" [pageSize]="countElementInsideTable"></mat-paginator>
@@ -106,3 +108,9 @@
   </mat-card-actions>
 </mat-card>  
 <app-context-menu-table [parentTable]="getInstance()" ></app-context-menu-table>          
+
+<mat-drawer #drawer class="table-right-sidenav" mode="side" position="end">
+  <app-table-editor-sidenav [parentTable]="getInstance()"></app-table-editor-sidenav>
+</mat-drawer>
+
+</mat-drawer-container>

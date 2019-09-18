@@ -1,0 +1,16 @@
+<table border="1px" cellspacing="0" cellpadding="2" width="100%">
+    <thead>
+        <tr >
+            <th *ngFor="let headItem of this.parentTable.displayedColumns">
+                {{this.parentTable.getViewHeader(headItem)}}
+            </th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let item of this.parentTable.dataSource._orderData(this.parentTable.dataSource.filteredData)">
+        <tr>
+            <td *ngFor="let key of this.parentTable.displayedColumns">
+                {{this.parentTable.getValueFromElement(item,key)}}
+            </td>
+        </tr>
+    </tbody>
+</table>

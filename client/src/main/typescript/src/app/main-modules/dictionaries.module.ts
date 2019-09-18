@@ -14,8 +14,8 @@ import { ScantechRegDictionaryComponent } from '../ui/components/dictionaries/sc
 
 import { FilterTableComponent } from '../ui/bases/components/table/inside-components/filter-table/filter-table.component';
 import { ContextMenuTableComponent } from '../ui/bases/components/table/inside-components/context-menu-table/context-menu-table.component';
-
-
+import { PrintTableContentComponent } from '../ui/bases/components/table/inside-components/print-table-content/print-table-content.component';
+import { TableEditorSidenavComponent } from '../ui/bases/components/table/inside-components/table-editor-sidenav/table-editor-sidenav.component';
 
 
 @NgModule({
@@ -25,11 +25,14 @@ import { ContextMenuTableComponent } from '../ui/bases/components/table/inside-c
                     FilterTableComponent,
                     ContextMenuTableComponent,
                     CountriesDictionaryComponent,
-                    ScantechRegDictionaryComponent ],
+                    ScantechRegDictionaryComponent,
+                    PrintTableContentComponent,
+                    TableEditorSidenavComponent
+                     ],
     imports: [ AppMaterialModule, CommonModule, FormsModule ],
     exports: [ BanksDictionaryComponent, ArticleDictionaryComponent, Tag1214WayPaymentDictionaryComponent,
                FilterTableComponent, ContextMenuTableComponent , CountriesDictionaryComponent,
-               ScantechRegDictionaryComponent ]
+               ScantechRegDictionaryComponent, PrintTableContentComponent, TableEditorSidenavComponent ]
     })
 
 export class DictionaryModule {

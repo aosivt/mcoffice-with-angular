@@ -18,7 +18,7 @@ export class BanksDictionaryComponent extends TableComponent {
     return 'bank';
   }
 
-  protected getDisplayedViewCollumns() {
+  public getDisplayedViewCollumns() {
     return [
       {key: 'id',         value: 'Индетификатор',               typeDB:   {},
                           typeView: TypeFieldEditor.TEXT,       view: false},
