@@ -2,29 +2,25 @@ package ru.mobilcard.mcoffice.services.controlls.models.cbo.country;
 
 import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
 import org.springframework.stereotype.Service;
-import ru.mobilcard.mcoffice.database.fasades.BaseFacade;
-import ru.mobilcard.mcoffice.database.mappers.cbo.ArticleMapper;
 import ru.mobilcard.mcoffice.database.mappers.cbo.CountryMapper;
-import ru.mobilcard.mcoffice.database.models.cbo.ArticleModel;
 import ru.mobilcard.mcoffice.database.models.cbo.CountryModel;
-import ru.mobilcard.mcoffice.services.controlls.config.AbstractJsonRpcServiceComponent;
+import ru.mobilcard.mcoffice.services.controlls.config.BaseModelJsonRpcService;
 
 @Service
 @AutoJsonRpcServiceImpl
-public class CountryJsonRpcServiceComponent extends AbstractJsonRpcServiceComponent implements CountryJsonRpcService {
+public class CountryJsonRpcServiceComponent
+        extends BaseModelJsonRpcService<CountryMapper, CountryModel, Long>
+        implements CountryJsonRpcService {
 
+    @SuppressWarnings("unchecked")
     @Override
-    public BaseFacade<CountryMapper, CountryModel, Long> getBaseFacade() {
-        return baseFacade;
+    public Class<CountryMapper> getMapperClass() {
+        return CountryMapper.class;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Class<ArticleMapper> getMapperClass() {
-        return ArticleMapper.class;
-    }
-
-    @Override
-    public Class<ArticleModel> getModelClass() {
-        return ArticleModel.class;
+    public Class<CountryModel> getModelClass() {
+        return CountryModel.class;
     }
 }

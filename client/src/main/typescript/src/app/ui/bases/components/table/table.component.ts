@@ -187,15 +187,17 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   }
 
   public clickDeletedButton() {
-    this.service.getHttpConnect().post(
-      this.service.
-      getFullPathToWebServiceByPathService(this.getPathToServiceCollectionDelete()), this.selection.selected).
-      subscribe((result: RowResultElement) => {
+    // this.service.getHttpConnect().post(
+    //   this.service.
+    //   getFullPathToWebServiceByPathService(this.getPathToServiceCollectionDelete()), this.selection.selected).
+    this.service.callJsonRpcService('article', 'deleteRecord', this.selection.selected)
+      .subscribe((result: RowResultElement) => {
         console.log(result);
         this.refresh();
       });
     this.selection.clear();
   }
+
   public clickInsertButton() {
     const emptyRow = {id: ''};
     this._customAction = this.getPathToServiceInsert();

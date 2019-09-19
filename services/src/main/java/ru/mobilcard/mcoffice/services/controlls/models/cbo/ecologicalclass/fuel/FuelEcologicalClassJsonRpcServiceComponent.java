@@ -1,31 +1,27 @@
 package ru.mobilcard.mcoffice.services.controlls.models.cbo.ecologicalclass.fuel;
 
-import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
+
 import org.springframework.stereotype.Service;
-import ru.mobilcard.mcoffice.database.fasades.BaseFacade;
-import ru.mobilcard.mcoffice.database.mappers.cbo.ArticleMapper;
-import ru.mobilcard.mcoffice.database.mappers.cbo.CountryMapper;
+
 import ru.mobilcard.mcoffice.database.mappers.cbo.FuelEcologicalClassMapper;
-import ru.mobilcard.mcoffice.database.models.cbo.ArticleModel;
-import ru.mobilcard.mcoffice.database.models.cbo.CountryModel;
 import ru.mobilcard.mcoffice.database.models.cbo.FuelEcologicalClassModel;
-import ru.mobilcard.mcoffice.services.controlls.config.AbstractJsonRpcServiceComponent;
+
+import ru.mobilcard.mcoffice.services.controlls.config.BaseModelJsonRpcService;
+
 
 @Service
-@AutoJsonRpcServiceImpl
+//@AutoJsonRpcServiceImpl
 public class FuelEcologicalClassJsonRpcServiceComponent
-        extends AbstractJsonRpcServiceComponent implements FuelEcologicalClassJsonRpcService {
+        extends BaseModelJsonRpcService<FuelEcologicalClassMapper, FuelEcologicalClassModel, Long>
+        implements FuelEcologicalClassJsonRpcService {
 
-    @Override
-    public BaseFacade<FuelEcologicalClassMapper, FuelEcologicalClassModel, Long> getBaseFacade() {
-        return baseFacade;
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public Class<FuelEcologicalClassMapper> getMapperClass() {
         return FuelEcologicalClassMapper.class;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Class<FuelEcologicalClassModel> getModelClass() {
         return FuelEcologicalClassModel.class;

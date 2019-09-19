@@ -1,30 +1,27 @@
 package ru.mobilcard.mcoffice.services.controlls.models.cbo.tax;
 
-import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
 import org.springframework.stereotype.Service;
-import ru.mobilcard.mcoffice.database.fasades.BaseFacade;
-import ru.mobilcard.mcoffice.database.mappers.cbo.ArticleMapper;
-import ru.mobilcard.mcoffice.database.mappers.cbo.CountryMapper;
+
+import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
+
 import ru.mobilcard.mcoffice.database.mappers.cbo.TaxMapper;
-import ru.mobilcard.mcoffice.database.models.cbo.ArticleModel;
-import ru.mobilcard.mcoffice.database.models.cbo.CountryModel;
 import ru.mobilcard.mcoffice.database.models.cbo.TaxModel;
-import ru.mobilcard.mcoffice.services.controlls.config.AbstractJsonRpcServiceComponent;
+
+import ru.mobilcard.mcoffice.services.controlls.config.BaseModelJsonRpcService;
 
 @Service
 @AutoJsonRpcServiceImpl
-public class TaxJsonRpcServiceComponent extends AbstractJsonRpcServiceComponent implements TaxJsonRpcService {
+public class TaxJsonRpcServiceComponent
+        extends BaseModelJsonRpcService<TaxMapper, TaxModel, Long>
+        implements TaxJsonRpcService {
 
-    @Override
-    public BaseFacade<TaxMapper, TaxModel, Long> getBaseFacade() {
-        return baseFacade;
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public Class<TaxMapper> getMapperClass() {
         return TaxMapper.class;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Class<TaxModel> getModelClass() {
         return TaxModel.class;
