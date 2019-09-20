@@ -2,16 +2,18 @@ package ru.mobilcard.mcoffice.database.fasades;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.postgresql.util.PSQLException;
 import ru.mobilcard.mcoffice.database.config.MyBatisConfig;
 import ru.mobilcard.mcoffice.database.mappers.Mapper;
 import ru.mobilcard.mcoffice.database.models.interfaces.Model;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
                         ModelType  extends Model, IdentifierType>  {
 
-    public ModelType getDictionaryById(IdentifierType l, Class<MapperType> mapper) {
+    public ModelType getDictionaryById(IdentifierType l, Class<MapperType> mapper) throws PSQLException {
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(mapper);
@@ -19,18 +21,16 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         session.close();
         return dictionary;
     }
-    public Set<ModelType> getDictionaryByModel(ModelType model, Class<MapperType> mapper) {
+    public Set<ModelType> getDictionaryByModel(ModelType model, Class<MapperType> mapper) throws PSQLException{
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
-
         SqlSession session = sessionFactory.openSession();
-
         MapperType m = session.getMapper(mapper);
         Set<ModelType> dictionaries = m.getByModel(model);
         session.close();
         return dictionaries;
     }
 
-    public Set<ModelType> getListDictionary(Class<MapperType> mapperType){
+    public Set<ModelType> getListDictionary(Class<MapperType> mapperType) throws PSQLException{
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(mapperType);
@@ -38,7 +38,7 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         session.close();
         return dictionary;
     }
-    public ModelType insertRecord(ModelType model, Class<MapperType> type){
+    public ModelType insertRecord(ModelType model, Class<MapperType> type) throws PSQLException{
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
@@ -47,7 +47,7 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         session.close();
         return model;
     }
-    public ModelType deleteRecord(ModelType record, Class<MapperType> type){
+    public ModelType deleteRecord(ModelType record, Class<MapperType> type) throws PSQLException {
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
@@ -56,7 +56,7 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         session.close();
         return record;
     }
-    public void insertCollectionRecords(Set<ModelType> records, Class<MapperType> type){
+    public void insertCollectionRecords(Set<ModelType> records, Class<MapperType> type) throws PSQLException{
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
@@ -64,7 +64,7 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         session.commit();
         session.close();
     }
-    public void deleteCollectionRecords(Set<ModelType> records, Class<MapperType> type){
+    public void deleteCollectionRecords(Set<ModelType> records, Class<MapperType> type) throws PSQLException{
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
@@ -72,7 +72,7 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         session.commit();
         session.close();
     }
-    public void updateRecord(ModelType record, Class<MapperType> type){
+    public void updateRecord(ModelType record, Class<MapperType> type) throws PSQLException{
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);
@@ -80,7 +80,7 @@ public class BaseFacade<MapperType extends Mapper<ModelType, IdentifierType>,
         session.commit();
         session.close();
     }
-    public void updateCollectionRecords(Set<ModelType> records, Class<MapperType> type){
+    public void updateCollectionRecords(Set<ModelType> records, Class<MapperType> type) throws PSQLException{
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         MapperType m = session.getMapper(type);

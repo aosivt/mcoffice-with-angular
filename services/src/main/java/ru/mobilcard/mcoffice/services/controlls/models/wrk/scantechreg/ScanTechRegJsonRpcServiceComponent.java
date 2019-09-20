@@ -19,6 +19,7 @@ public class ScanTechRegJsonRpcServiceComponent
 //    }
 //
 //    @Override
+
 //    public Class<ScanTechRegModel> getModelClass() {
 //        return ScanTechRegModel.class;
 //    }

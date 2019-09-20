@@ -190,11 +190,14 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     // this.service.getHttpConnect().post(
     //   this.service.
     //   getFullPathToWebServiceByPathService(this.getPathToServiceCollectionDelete()), this.selection.selected).
+    const that = this;
     this.service.callJsonRpcService('article', 'deleteRecord', this.selection.selected)
       .subscribe((result: RowResultElement) => {
         console.log(result);
         this.refresh();
-      });
+      }, error =>
+        that.service.errorCallBack(error.error)
+      );
     this.selection.clear();
   }
 

@@ -24,7 +24,7 @@ public class FactoryBaseFacade {
 
     public <MapperType extends Mapper<ModelType, IdentifierType>,ModelType extends Model, IdentifierType>
                                BaseFacade<MapperType, ModelType , IdentifierType> getBaseFacade(){
-        return new BaseFacade<MapperType, ModelType , IdentifierType>();
+        return new BaseFacade<>();
     }
 
 }

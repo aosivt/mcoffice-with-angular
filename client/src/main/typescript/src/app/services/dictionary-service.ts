@@ -1,14 +1,5 @@
-import {
-    Component, 
-    Inject,
-    Injectable} from '@angular/core';
-import { 
-    Jsonp, 
-    URLSearchParams,
-    Http, 
-    Response,
-    Headers, 
-    RequestOptions } from '@angular/http';
+import { Component, Inject, Injectable} from '@angular/core';
+import { Jsonp, URLSearchParams, Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import {DataSource} from '@angular/cdk/collections';
 import {Observable} from 'rxjs';
@@ -21,6 +12,7 @@ import { JsonRpcResponce } from './interfaces/security/json-rpc-responce';
 import { BuilderJsonRpcRequest } from './builder-json-rpc-request';
 import { HttpHeaders } from '@angular/common/http';
 import { RowResultElement } from '../ui/bases/components/table/interfaces/row-result-elements';
+import { JsonRpcError } from './interfaces/security/json-rpc-error';
 
 /**
  * Объект создан для получения списков справочников с сервиса БД
@@ -59,14 +51,20 @@ export class  DictionaryService extends AbstractDictionaryService {
         const temp  = {
             model: data
         };
+
         const requets: JsonRpcRequest[] =
         data.map( r => BuilderJsonRpcRequest.builder().setMethod(method).setParam({
             model: r
         }).build());
         console.log(requets);
+        this.getJsonRpcService(path, requets).pipe(map(result =>
+            console.log(result)));
         return this.getJsonRpcService(path, requets);
     }
 
+    public errorCallBack(errors: JsonRpcError[]) {
+        errors.forEach(f => console.log(f.error));
+    }
 
 
 }

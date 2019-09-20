@@ -1,5 +1,6 @@
 package ru.mobilcard.mcoffice.services.controlls.models;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,6 +8,7 @@ import ru.mobilcard.mcoffice.database.fasades.BaseFacade;
 import ru.mobilcard.mcoffice.database.mappers.Mapper;
 import ru.mobilcard.mcoffice.database.models.interfaces.Model;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 public abstract class BaseController<MapperType extends Mapper<ModelType, IdentifierType>,
@@ -20,8 +22,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/get/record/{id}",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public ModelType getRecordById(
-            @PathVariable(name = "id") IdentifierType id) {
+    public ModelType getRecordById(@PathVariable(name = "id") IdentifierType id) throws SQLException {
         return baseFacade.getDictionaryById(id , getMapperClass());
     }
 
@@ -31,8 +32,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/collection/by/model",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set<ModelType> getRecordByModel(
-            @RequestBody() ModelType dictionary) {
+    public Set<ModelType> getRecordByModel(@RequestBody() ModelType dictionary) throws SQLException {
         return baseFacade.getDictionaryByModel(dictionary, getMapperClass());
     }
 
@@ -42,8 +42,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/collection",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set getCollection() {
-
+    public Set getCollection() throws SQLException{
         return baseFacade.getListDictionary(getMapperClass());
     }
 
@@ -53,8 +52,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/record/insert",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public ModelType insertRecord(
-            @RequestBody() ModelType dictionary) {
+    public ModelType insertRecord(@RequestBody() ModelType dictionary) throws SQLException{
         baseFacade.insertRecord(dictionary, getMapperClass());
         return dictionary;
     }
@@ -65,8 +63,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/collection/record/insert",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set<ModelType> insertCollectionRecords(
-            @RequestBody() Set<ModelType> dictionaries) {
+    public Set<ModelType> insertCollectionRecords(@RequestBody() Set<ModelType> dictionaries) throws SQLException {
         baseFacade.insertCollectionRecords(dictionaries, getMapperClass());
         return dictionaries;
     }
@@ -77,8 +74,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/record/delete",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public ModelType deleteRecord(
-            @RequestBody() ModelType dictionary) {
+    public ModelType deleteRecord(@RequestBody() ModelType dictionary) throws SQLException {
         baseFacade.deleteRecord(dictionary, getMapperClass());
         return getModelClass().cast(dictionary);
     }
@@ -89,8 +85,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/collection/record/delete",method = {RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set<ModelType> deleteCollectionRecords(
-            @RequestBody() Set<ModelType> dictionaries) {
+    public Set<ModelType> deleteCollectionRecords(@RequestBody() Set<ModelType> dictionaries) throws SQLException {
         baseFacade.deleteCollectionRecords(dictionaries, getMapperClass());
         return dictionaries;
     }
@@ -101,7 +96,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/record/update",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public ModelType updateRecord(@RequestBody() ModelType dictionary) {
+    public ModelType updateRecord(@RequestBody() ModelType dictionary) throws SQLException {
         baseFacade.updateRecord(dictionary, getMapperClass());
         return getModelClass().cast(dictionary);
     }
@@ -112,8 +107,7 @@ public abstract class BaseController<MapperType extends Mapper<ModelType, Identi
      * */
     @RequestMapping(value = "/collection/record/update",method = {RequestMethod.GET, RequestMethod.POST})
     @CrossOrigin(origins = "*")
-    public Set<ModelType> updateCollectionRecord(
-            @RequestBody() Set<ModelType> dictionaries) {
+    public Set<ModelType> updateCollectionRecord(@RequestBody() Set<ModelType> dictionaries) throws SQLException {
         baseFacade.updateCollectionRecords(dictionaries, getMapperClass());
         return dictionaries;
     }
