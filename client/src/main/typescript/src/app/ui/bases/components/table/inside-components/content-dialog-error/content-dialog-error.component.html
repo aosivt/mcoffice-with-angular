@@ -1,0 +1,21 @@
+<mat-card>
+        <mat-card-header>
+            <h3><mat-icon mat-list-icon>warning</mat-icon> Ошибка выполнения </h3>
+        </mat-card-header>
+        <mat-card-content>
+        <mat-list *ngFor="let error of errors">
+            <h3 matSubheader>Номер запроса</h3>
+            <mat-list-item>{{error.id}}</mat-list-item>
+            <h3 matSubheader>Код ошибки</h3>
+            <mat-list-item>{{error.error.code}}</mat-list-item>
+            <h3 matSubheader>Отладочная информация</h3>
+            <mat-list-item></mat-list-item>
+            <mat-list-item>{{error.error.message}}</mat-list-item>
+        </mat-list>  
+        </mat-card-content>
+        <mat-card-actions>
+                <button mat-button (click)="onNoClick()">Продолжить</button>
+                <button mat-button (click)="onNoClick()">Отмена</button>
+        </mat-card-actions>
+</mat-card>
+        
