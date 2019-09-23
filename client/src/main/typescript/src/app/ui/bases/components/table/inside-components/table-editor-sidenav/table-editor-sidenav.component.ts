@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-table-editor-sidenav',
   templateUrl: './table-editor-sidenav.component.html',

@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './table-editor.component.html',
   styleUrls: ['./table-editor.component.css']
 })
-export class TableEditorComponent implements OnInit{
+export class TableEditorComponent implements OnInit {
   isCopy: boolean = false;
   isDeleted: boolean = false;
   items: ItemsWindowEditor = {};

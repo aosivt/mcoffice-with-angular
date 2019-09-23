@@ -20,10 +20,6 @@ import { DictionaryService } from './services/dictionary-service';
 import { WebSocketService } from './services/web-socket-service/web-socket-service';
 
 
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent, HeaderBackOfficeComponent, LoginComponent,

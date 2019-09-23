@@ -6,7 +6,8 @@ import {Observable} from 'rxjs';
 import { HttpClient , HttpParams } from '@angular/common/http';
 
 import {PropertyForConnectionToService} from './propoty-for-connection-to-service'
-import { JsonRpcRequest } from './interfaces/security/json-rpc-request';
+import { JsonRpcRequest } from './json-rpc/interfaces/json-rpc-request';
+import { BuilderJsonRpcRequest } from './json-rpc/builder-json-rpc-request';
 
 /**
  * Объект создан для получения списков справочников с сервиса БД
@@ -137,14 +138,19 @@ export abstract class AbstractDictionaryService {
     public postDataToService(pathToService: string, params: HttpParams): Observable<any>{
         return this.http.post(this.getFullPathToWebServiceByPathService(pathToService), params);
     }
-
     public createHttpParams() {
         return new HttpParams();
+    }
+
+    public createCustomJsonRpcServiceByObject(method: string, data: any): JsonRpcRequest {
+        return BuilderJsonRpcRequest.builder().setMethod(method).addObjectParam(data).build();
+    }
+
+    public createCustomJsonRpcServiceByObjectArray(method: string, data: any[]): JsonRpcRequest[] {
+        return data.map(d => this.createCustomJsonRpcServiceByObject(method, d));
     }
 
     public getJsonRpcService(path: string, request: JsonRpcRequest[] ): Observable<any> {
         return this.getHttpConnect().post(this.getFullPathToWebServiceByPathService(path), request);
     }
-
-
 }

@@ -1,18 +1,22 @@
 import { Component, Inject, Injectable} from '@angular/core';
 import { Jsonp, URLSearchParams, Http, Response, Headers, RequestOptions } from '@angular/http';
-
 import {DataSource} from '@angular/cdk/collections';
+
 import {Observable} from 'rxjs';
 
 import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
 import {AbstractDictionaryService} from './abstract-dictionary-service';
-import { JsonRpcRequest } from './interfaces/security/json-rpc-request';
-import { JsonRpcResponce } from './interfaces/security/json-rpc-responce';
-import { BuilderJsonRpcRequest } from './builder-json-rpc-request';
-import { HttpHeaders } from '@angular/common/http';
+
+import { BuilderJsonRpcRequest } from './json-rpc/builder-json-rpc-request';
+
 import { RowResultElement } from '../ui/bases/components/table/interfaces/row-result-elements';
-import { JsonRpcError } from './interfaces/security/json-rpc-error';
+
+import { JsonRpcRequest } from './json-rpc/interfaces/json-rpc-request';
+import { JsonRpcResponse } from './json-rpc/interfaces/json-rpc-response';
+import { JsonRpcError } from './json-rpc/interfaces/json-rpc-error';
+import { JsonRpcErrorType } from './json-rpc/json-rpc-error-type';
+import { ConvertHelper } from '../utils/conver-helper';
 
 /**
  * Объект создан для получения списков справочников с сервиса БД
@@ -25,12 +29,10 @@ export class  DictionaryService extends AbstractDictionaryService {
      * @param dictionary - строковое наименование справочника на стороне сервиса
      * @returns возращает данные для отображения в таблице находящейся в диалоге {@link Observable<any>} 
      */
-  getCollectionDictionaries(dictionary: string, dictionaryInterface: any) : Observable<any> {
+  public getCollectionDictionaries(dictionary: string, dictionaryInterface: any) : Observable<any> {
     return this.getObserverResponseDictionary(dictionary).pipe(
-        map((res:Response) => res.json())
-        
-        
-    )
+        map((res: Response) => res.json())
+    );
         // map((res:Response) => res.json());
   }
 
@@ -41,30 +43,51 @@ export class  DictionaryService extends AbstractDictionaryService {
      * @param body определение тела запроса
      * @return возращает добавленный/измененный/удаленные элемент БД 
      */
-    actionsForDirectories(pathToMethodService: string, requestParam: URLSearchParams, body: any ): Observable<any> {
+    public actionsForDirectories(pathToMethodService: string, requestParam: URLSearchParams, body: any ): Observable<any> {
         return this.getObserverResponseDictionaryWithAction(pathToMethodService, requestParam, body)
                 .pipe(map((res: Response) => res.json()));
     }
 
-    public callJsonRpcService(path: string, method: string, data: RowResultElement[]) {
-        console.log(data);
-        const temp  = {
-            model: data
-        };
+    public createJsonRpcRequest(method: string, nameValue: string, value: any): JsonRpcRequest {
+        return BuilderJsonRpcRequest.builder().setMethod(method).addParam(nameValue, value).build();
+    }
+    public createJsonRpcRequestByArrayObject(method: string, nameValue: string, value: any): JsonRpcRequest {
+        return BuilderJsonRpcRequest.builder().setMethod(method).addParam(nameValue, value).build();
+    }
 
+    public callJsonRpcServiceForObject(path: string, method: string, data: RowResultElement[]) {
+        console.log(data);
         const requets: JsonRpcRequest[] =
-        data.map( r => BuilderJsonRpcRequest.builder().setMethod(method).setParam({
-            model: r
-        }).build());
+        data.map(
+            r => BuilderJsonRpcRequest.builder().setMethod(method).addParam('model', r).build()
+            );
         console.log(requets);
         this.getJsonRpcService(path, requets).pipe(map(result =>
             console.log(result)));
         return this.getJsonRpcService(path, requets);
     }
 
-    public errorCallBack(errors: JsonRpcError[]) {
-        errors.forEach(f => console.log(f.error));
+    protected createFieldParametrForService(nameParameter: string, parametr: {}): Map<string, {}> {
+        return new Map([[nameParameter, parametr]]);
     }
 
+    public callJsonRpcService(path: string, method: string, nameParam?: string, data?: RowResultElement[]) {
+        console.log(data);
+        const builderRequest = BuilderJsonRpcRequest.builder();
+        if (data != null) {
+            builderRequest.addParam(nameParam, data);
+        }
+        const requets: JsonRpcRequest[] = [ builderRequest.setMethod(method).build() ];
+        console.log(requets);
+        // this.getJsonRpcService(path, requets).pipe(map(result =>
+        //     console.log(result)));
+        return this.getJsonRpcService(path, requets);
+    }
+    
 
+    public errorCallBack(errors: JsonRpcError[]) {
+        console.log(errors);
+        // errors.forEach(f => console.log(JsonRpcErrorType.getErrorTypeByCode(f.error.code)));
+        return errors;
+    }
 }

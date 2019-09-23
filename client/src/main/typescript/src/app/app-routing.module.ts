@@ -11,6 +11,7 @@ import { Tag1214WayPaymentDictionaryComponent } from './ui/components/dictionari
 import { ScantechRegDictionaryComponent } from './ui/components/dictionaries/scantech-reg-dictionary/scantech-reg-dictionary.component';
 import { TableEditorComponent } from './ui/bases/components/table/inside-components/table-editor/table-editor.component';
 import { MainEditorComponent } from './ui/bases/components/table/inside-components/table-editor/main-editor/main-editor.component';
+import { ArticleTableEditorComponent } from './ui/components/dictionaries/article-dictionary-component/inside-components/article-table-editor/article-table-editor.component';
 
 
 // определение маршрутов
@@ -31,7 +32,9 @@ export class AppRoutingModule {
         { outlet: 'sidebarContent', path: '', component: McoEmptyPageComponent },
         { outlet: 'primary', path: '', component: McoEmptyPageComponent, },
         { outlet: 'primary', path: 'bank', component: BanksDictionaryComponent, },
-        { outlet: 'primary', path: 'article', component: ArticleDictionaryComponent },
+        { outlet: 'primary', path: 'article', component: ArticleDictionaryComponent, children: [
+          {outlet: 'primary', path: 'editor', component: ArticleTableEditorComponent}
+        ] },
         { outlet: 'primary', path: 'country', component: CountriesDictionaryComponent },
         { outlet: 'primary', path: 'tag1214_way_payment', component: Tag1214WayPaymentDictionaryComponent },
         { outlet: 'primary', path: 'scantech_reg', component: ScantechRegDictionaryComponent },

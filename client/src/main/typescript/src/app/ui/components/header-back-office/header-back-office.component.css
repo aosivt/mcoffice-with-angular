@@ -7,7 +7,7 @@
   }
 
   p.tree-name {
-    font-size: 8pt;
+    font-size: 10pt;
   }
   
   .main-menu-sidenav {
@@ -18,9 +18,9 @@
     min-width: 400px;
     padding: 20px;
   }
-  .main-menu-content{
+  /* .main-menu-content{
     padding: 20px;
-  }
+  } */
    
   .back-office-content-card {
     max-width: 100%;

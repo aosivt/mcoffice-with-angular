@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, Inject, ChangeDetectorRef, Injectable, Injector } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
@@ -29,12 +29,19 @@ import { ItemsWindowEditor }        from './interfaces/items-window-editor';
 import { ContextMenuTableComponent } from './inside-components/context-menu-table/context-menu-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabsEditorComponent } from './inside-components/table-editor/interfaces/tabs-editor-component';
+import { JsonRpcResponse } from 'src/app/services/json-rpc/interfaces/json-rpc-response';
+import { TableEditorSidenavComponent } from './inside-components/table-editor-sidenav/table-editor-sidenav.component';
+import { MatDrawer } from '@angular/material/sidenav';
+import { ContentDialogErrorComponent } from './inside-components/content-dialog-error/content-dialog-error.component';
+import { JsonRpcError } from 'src/app/services/json-rpc/interfaces/json-rpc-error';
+import { ConfigViewWindwowError } from './interfaces/config-view-windwow-error';
+import { DataWindowError } from './interfaces/data-window-error';
 
 
 
-const EMPTY_TABLE_VALUE = '---';
+const EMPTY_TABLE_VALUE = '';
 export const VIEW_EDIT_ROW = true;
-
+@Injectable()
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -46,15 +53,20 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(ContextMenuTableComponent, {static: false}) contextMenu: ContextMenuTableComponent;
+  @ViewChild(MatDrawer, {static: false}) editorElement: MatDrawer;
+
   _displayedColumns: DisplayedColumnsElements[] = this.getDisplayedViewCollumns();
   _customAction: string = null;
 
   _countElementInsideTable: number[] = [5, 10, 20, 30, 50, 100];
   _indexCountElementInsideTable: number = 3;
   config: MatDialogConfig = this.configViewWindwowEditor();
+  configErrorWindow: MatDialogConfig = this.configViewWindwowEditor();
   _dataSource = new MatTableDataSource<RowResultElement>([]);
 
   filterData: ItemsWindowEditor = {};
+
+  public dataTableEditor: RowResultElement = {id: ''};
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -63,7 +75,8 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
               public dialog: MatDialog,
               private changeDetectorRefs: ChangeDetectorRef,
               public route: ActivatedRoute,
-              public router: Router) { }
+              public router: Router,
+              public injector: Injector) { }
 
   ngOnInit() {
     this.refresh();
@@ -77,16 +90,19 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   }
 
   public refresh() {
+    const that = this;
     this.service
-    .getObserverResponseByServicePath(this.getPathToServiceCollection())
-    .pipe()
-    .subscribe((result: RowResultElement[]) => {
-      this._dataSource = new MatTableDataSource<RowResultElement>(result);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.changeDetectorRefs.detectChanges();
-     }
-    );
+        .callJsonRpcService(this.getRootPath(), this.getPathToServiceCollection())
+        .pipe()
+        .subscribe((result: JsonRpcResponse[]) => {
+          console.log(result);
+          this._dataSource =
+            new MatTableDataSource<RowResultElement>(<RowResultElement[]>result[0].result);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.changeDetectorRefs.detectChanges();
+        }, error => that.service.errorCallBack(error)
+        );
   }
   @Input()
   set dataSource(data: MatTableDataSource<RowResultElement>) {
@@ -103,7 +119,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   protected setCustomAction(action: string) {
     this._customAction = action;
   }
-  protected getCustomAction(): string {
+  public getCustomAction(): string {
     return this._customAction;
   }
 
@@ -129,28 +145,28 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   public abstract getDisplayedViewCollumns(): DisplayedColumnsElements[];
 
   protected getPathToServiceCollection(): string {
-    return this.getRootPath() + '/collection';
+    return 'getCollection';
   }
   protected getPathToServiceInsert(): string {
-    return this.getRootPath() + '/record/insert';
+    return 'insertRecord';
   }
   protected getPathToServiceUpdate(): string {
-    return this.getRootPath() + '/record/update';
+    return 'updateRecord';
   }
   protected getPathToServiceDelete(): string {
-    return this.getRootPath() + '/record/delete';
+    return 'deleteRecord';
   }
   protected getPathToServiceCollectionInsert(): string {
-    return this.getPathToServiceCollection() + '/record/insert';
+    return 'insertCollectionRecords';
   }
   protected getPathToServiceCollectionUpdate(): string {
-    return this.getPathToServiceCollection() + '/record/update';
+    return 'updateCollectionRecords';
   }
   protected getPathToServiceCollectionDelete(): string {
-    return this.getPathToServiceCollection() + '/record/delete';
+    return 'deleteCollectionRecords';
   }
   protected getPathToServiceSelectCollectionByModel(): string {
-    return this.getPathToServiceCollection() + '/by/model';
+    return 'getRecordByModel';
   }
 
   protected isVisibleButtonCopy(): boolean { return false; }
@@ -187,31 +203,52 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   }
 
   public clickDeletedButton() {
-    // this.service.getHttpConnect().post(
-    //   this.service.
-    //   getFullPathToWebServiceByPathService(this.getPathToServiceCollectionDelete()), this.selection.selected).
     const that = this;
-    this.service.callJsonRpcService('article', 'deleteRecord', this.selection.selected)
-      .subscribe((result: RowResultElement) => {
+    this.service.callJsonRpcService(this.getRootPath(),
+                                    this.getPathToServiceCollectionDelete(),
+                                    'models',
+                                    this.selection.selected)
+      .subscribe((result: JsonRpcResponse) => {
         console.log(result);
         this.refresh();
       }, error =>
-        that.service.errorCallBack(error.error)
+      that.showDialogError(that.service.errorCallBack(error.error))
       );
     this.selection.clear();
   }
 
   public clickInsertButton() {
-    const emptyRow = {id: ''};
-    this._customAction = this.getPathToServiceInsert();
-    this.showEditor(emptyRow);
+    this.editorElement.toggle();
+    this.selection.clear();
+    // const emptyRow = {id: ''};
+    // this._customAction = this.getPathToServiceInsert();
+    // this.showEditor(emptyRow);
+  }
+
+  public clickSaveButton(dataTableEditor?: RowResultElement) {
+    this.editorElement.toggle();
+
+    const that = this;
+    this.service.callJsonRpcService(this.getRootPath(),
+                                    this.getPathToServiceCollectionInsert(),
+                                    'models',
+                                    [this.dataTableEditor])
+      .subscribe((result: JsonRpcResponse) => {
+        console.log(result);
+        this.refresh();
+      }, error =>
+        that.showDialogError(that.service.errorCallBack(error.error))
+      );
+    this.selection.clear();
   }
   public clickEditButton() {
+    this.editorElement.toggle();
+    // this.selection.clear();
     // this.router.navigate([{ outlets: { primary: 'edit' }}]);
-    const row = this.selection.selected[0];
-    this._customAction = this.getPathToServiceUpdate();
-    this.showEditor(row);
-    this.selection.clear();
+    // const row = this.selection.selected[0];
+    // this._customAction = this.getPathToServiceUpdate();
+    // this.showEditor(row);
+    // this.selection.clear();
 
   }
   public clickCopyButton() {
@@ -241,7 +278,18 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
       this.config.data.isOnlyView = false;
       this.filteredTableData();
     });
-    }
+  }
+  public showDialogError(errors: JsonRpcError[]) {
+    console.log(errors);
+    this.config.data.dataRow = errors;
+    const dialogRef = this.dialog.open( ContentDialogErrorComponent, this.config);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this._customAction = null;
+      this.config.data.isOnlyView = false;
+      this.filteredTableData();
+    });
+  }
 
     public getValueFromElement(key: {}, item: string ) {
     if (key[item] === null) {
@@ -253,6 +301,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     }
     return key[item];
   }
+
   public clickPrintButton() {
     console.log(this.dataSource._orderData(this.dataSource.filteredData));
     let printContents;
@@ -288,6 +337,21 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
       data: this.dataViewWindowEditor()
     };
   }
+  protected configViewWindwowError(): ConfigViewWindwowError {
+    return {
+      disableClose: false,
+      width: '800',
+      height: '800',
+      position: {
+        top: '',
+        bottom: '',
+        left: '',
+        right: ''
+      },
+      data: this.dataViewWindowError()
+    };
+  }
+
   protected dataViewWindowEditor(): DataWindowEditor {
     return {
       dataRow: null,
@@ -300,6 +364,9 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
       isOnlyView: false,
       tabsConfig: this.getConfigTabForEditor()
     };
+  }
+  protected dataViewWindowError(): DataWindowError {
+    return { dataRow: null };
   }
   protected getConfigTabForEditor(): TabsEditorComponent[] {
     return [
@@ -315,8 +382,8 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
                                     filter((f) => typeof this.filterData[f] !== 'undefined').
                                     filter( f => this.filterData[f] !== '').length;
     if (countFildingField === 0) {
-    this.refresh();
-    return;
+      this.refresh();
+      return;
     }
 
     this.service.getHttpConnect().post(
@@ -349,33 +416,35 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   private getEnumByKey(key: string) {
     const enumJ = this.getConfigDisplayedColumn(key).typeDB;
     return this.getValuesFromEnumType(enumJ);
-   }
-   private getValuesFromEnumType(key: {}) {
+  }
+  private getValuesFromEnumType(key: {}) {
     return key['values']();
- }
- fieldFilterData(key: string, value: string) {
-  this.filterData[key] = value === '' ? null : value;
-}
-downloadFile() {
-  const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-  const header = this.displayedColumns.map(h => this.getViewHeader(h));
+  }
+  protected fieldFilterData(key: string, value: string) {
+    this.filterData[key] = value === '' ? null : value;
+  }
 
-  // Object.keys(data[0]);
-  const csv =
-    this.dataSource
-       ._orderData(this.dataSource.filteredData)
-       .map(item => this.displayedColumns
-       .map(key => JSON.stringify(this.getValueFromElement(item, key), replacer))
-       .join(','));
+  private downloadFile() {
+    const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+    const header = this.displayedColumns.map(h => this.getViewHeader(h));
 
-  // data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
-  csv.unshift(header.join(','));
-  const csvArray = csv.join('\r\n');
+    // Object.keys(data[0]);
+    const csv =
+      this.dataSource
+        ._orderData(this.dataSource.filteredData)
+        .map(item => this.displayedColumns
+        .map(key => JSON.stringify(this.getValueFromElement(item, key), replacer))
+        .join(','));
 
-  const blob = new Blob([csvArray], {type: 'text/csv' });
-  saveAs(blob, 'test.csv');
-}
+    // data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+    csv.unshift(header.join(','));
+    const csvArray = csv.join('\r\n');
 
+    const blob = new Blob([csvArray], {type: 'text/csv' });
+    saveAs(blob, 'test.csv');
+  }
+
+  
   public getInstance(): TableComponent {
     return this;
   }

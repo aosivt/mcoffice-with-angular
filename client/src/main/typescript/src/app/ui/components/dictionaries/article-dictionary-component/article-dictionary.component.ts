@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, EmbeddedViewRef, Injector, ReflectiveInjector } from '@angular/core';
 import { TableComponent } from 'src/app/ui/bases/components/table/table.component';
 import { TypeFieldEditor } from 'src/app/ui/bases/components/table/enums/type-field-editor';
 import { UnitDisableState } from 'src/app/ui/bases/types/enums/unit-disable-state';
@@ -7,14 +7,29 @@ import { TaxSystemType } from 'src/app/ui/bases/types/enums/tax-system-type';
 import { MeaSureUnitType } from 'src/app/ui/bases/types/enums/measure-unit-type';
 import { WorkNode } from '../../header-back-office/header-back-office.component';
 import { TabsEditorComponent } from 'src/app/ui/bases/components/table/inside-components/table-editor/interfaces/tabs-editor-component';
+import { ArticleTableEditorComponent } from './inside-components/article-table-editor/article-table-editor.component';
 
 
 
 export class ArticleDictionaryComponent extends TableComponent {
 
+  TableEditor = ArticleTableEditorComponent;
+  instance: Injector;
+
   public static ARTICLE_DICTIONARIES_PATH_TREE: WorkNode = {
     name: 'Номенклатура', action: 'article' , icon: 'bookmark'
   };
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.instance =
+    // ReflectiveInjector.resolveAndCreate([{provide: ArticleDictionaryComponent, useValue: this.getInstance()}], this.injector);
+      Injector.create({
+        providers: [{provide: TableComponent,
+        useValue: this.getInstance(),
+        deps: []}],
+        parent: this.injector});
+  }
 
   protected getRootPath(): string {
     return 'article';

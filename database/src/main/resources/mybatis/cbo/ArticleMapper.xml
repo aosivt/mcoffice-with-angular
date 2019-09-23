@@ -6,6 +6,7 @@
 
     <resultMap id="articleResultMap" type="ru.mobilcard.mcoffice.database.models.cbo.ArticleModel">
         <id     property="externalStrId"    column="external_str_id" />
+        <result property="externalStrId"    column="external_str_id" />
         <result property="name1"            column="name1"/>
         <result property="name2"            column="name2"/>
         <result property="ecrshortname"     column="ecrshortname"/>

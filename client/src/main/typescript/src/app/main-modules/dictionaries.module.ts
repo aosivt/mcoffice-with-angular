@@ -2,7 +2,9 @@
 import { NgModule } from '@angular/core';
 import { AppMaterialModule } from './material-module';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { RouterLink, Router, RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import { WorkNode } from '../ui/components/header-back-office/header-back-office.component';
 
@@ -16,7 +18,8 @@ import { FilterTableComponent } from '../ui/bases/components/table/inside-compon
 import { ContextMenuTableComponent } from '../ui/bases/components/table/inside-components/context-menu-table/context-menu-table.component';
 import { PrintTableContentComponent } from '../ui/bases/components/table/inside-components/print-table-content/print-table-content.component';
 import { TableEditorSidenavComponent } from '../ui/bases/components/table/inside-components/table-editor-sidenav/table-editor-sidenav.component';
-
+import { ContentDialogErrorComponent } from '../ui/bases/components/table/inside-components/content-dialog-error/content-dialog-error.component';
+import { ArticleTableEditorComponent } from '../ui/components/dictionaries/article-dictionary-component/inside-components/article-table-editor/article-table-editor.component';
 
 @NgModule({
     declarations: [ BanksDictionaryComponent,
@@ -27,13 +30,18 @@ import { TableEditorSidenavComponent } from '../ui/bases/components/table/inside
                     CountriesDictionaryComponent,
                     ScantechRegDictionaryComponent,
                     PrintTableContentComponent,
-                    TableEditorSidenavComponent
+                    TableEditorSidenavComponent,
+                    ArticleTableEditorComponent,
+                    ContentDialogErrorComponent
                      ],
-    imports: [ AppMaterialModule, CommonModule, FormsModule ],
+    imports: [ AppMaterialModule, CommonModule, FormsModule, ReactiveFormsModule ],
     exports: [ BanksDictionaryComponent, ArticleDictionaryComponent, Tag1214WayPaymentDictionaryComponent,
                FilterTableComponent, ContextMenuTableComponent , CountriesDictionaryComponent,
-               ScantechRegDictionaryComponent, PrintTableContentComponent, TableEditorSidenavComponent ]
-    })
+               ScantechRegDictionaryComponent, PrintTableContentComponent,
+               TableEditorSidenavComponent, ArticleTableEditorComponent ],
+    entryComponents: [ArticleTableEditorComponent, ContentDialogErrorComponent]
+    }
+    )
 
 export class DictionaryModule {
     public static DICTIONARIES_PATH_TREE: WorkNode = {
