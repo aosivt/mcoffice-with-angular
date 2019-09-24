@@ -8,6 +8,8 @@ import { MeaSureUnitType } from 'src/app/ui/bases/types/enums/measure-unit-type'
 import { WorkNode } from '../../header-back-office/header-back-office.component';
 import { TabsEditorComponent } from 'src/app/ui/bases/components/table/inside-components/table-editor/interfaces/tabs-editor-component';
 import { ArticleTableEditorComponent } from './inside-components/article-table-editor/article-table-editor.component';
+import { DisplayedColumnsElements } from 'src/app/ui/bases/components/table/interfaces/displayed-columns-elements';
+import { JsonRpcResponse } from 'src/app/services/json-rpc/interfaces/json-rpc-response';
 
 
 
@@ -15,59 +17,43 @@ export class ArticleDictionaryComponent extends TableComponent {
 
   TableEditor = ArticleTableEditorComponent;
   instance: Injector;
+  displayedCollumnsElements: DisplayedColumnsElements[];
 
   public static ARTICLE_DICTIONARIES_PATH_TREE: WorkNode = {
     name: 'Номенклатура', action: 'article' , icon: 'bookmark'
   };
 
-  ngOnInit() {
-    super.ngOnInit();
-    this.instance =
-    // ReflectiveInjector.resolveAndCreate([{provide: ArticleDictionaryComponent, useValue: this.getInstance()}], this.injector);
-      Injector.create({
-        providers: [{provide: TableComponent,
-        useValue: this.getInstance(),
-        deps: []}],
-        parent: this.injector});
-  }
 
   protected getRootPath(): string {
     return 'article';
   }
 
-  public getDisplayedViewCollumns() {
-    return [
-      {key: 'id',             value: 'Индетификатор',         typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: false},
-      {key: 'externalStrId',  value: 'Внешний идентификатор', typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: false},
-      {key: 'name1',          value: 'Наименование 1',        typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: true},
-      {key: 'name2',          value: 'Наименование 2', typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: true},
-      {key: 'ecrshortname',   value: 'Короткое наименование', typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: true},
-      {key: 'ecrlongname',    value: 'Длинное наименование', typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: true},
-      {key: 'idMarket',       value: 'idMarket', typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: true},
-      {key: 'idPricegroup',   value: 'idPricegroup', typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: true},
-      {key: 'idParent',       value: 'idParent', typeDB:   {},
-                              typeView: TypeFieldEditor.TEXT,       view: true},
-      {key: 'note',           value: 'Расшифровка', typeDB:   {},
-      typeView: TypeFieldEditor.TEXT,       view: true},
-      {key: 'articletype',    value: 'Тип', typeDB:   ArticleType,
-                              typeView: TypeFieldEditor.SELECTENUM, view: true},
-      {key: 'flgDisable',     value: 'Состояние', typeDB:   UnitDisableState,
-                              typeView: TypeFieldEditor.SELECTENUM, view: true},
-      {key: 'unittype',       value: 'Тип еденици измерения', typeDB:   MeaSureUnitType,
-                              typeView: TypeFieldEditor.SELECTENUM,       view: true},
-      {key: 'idTaxSystem',    value: 'Налогообложения', typeDB:   TaxSystemType,
-                              typeView: TypeFieldEditor.SELECTENUM, view: true},
-      {key: 'hasMrc',         value: 'Имеет минимальную цену', typeDB:   {},
-      typeView: TypeFieldEditor.CHECKBOX,       view: true},
-    ];
+  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
+    
+    
+    if (this._displayedColumns == null) {
+      const that = this;
+      
+      this.service.callJsonRpcService(this.getRootPath(), 'getTableFieldsAnnotations')
+      .subscribe((result: JsonRpcResponse[]) => {
+        this._displayedColumns = result[0].result as DisplayedColumnsElements[];
+        this.refresh();
+        this.initInjector();
+      }, error =>
+        that.showDialogError(that.service.errorCallBack(error.error))
+      );
+    }
+    return this._displayedColumns;
+  }
+  public initInjector() {
+          this.instance =
+          Injector.create({
+          providers: [{provide: TableComponent,
+          useValue: this.getInstance(),
+          deps: []}],
+          parent: this.injector});
+
+    
   }
 
   protected getConfigTabForEditor(): TabsEditorComponent[] {

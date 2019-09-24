@@ -6,4 +6,5 @@ export interface DisplayedColumnsElements {
     typeDB: {};
     typeView: TypeFieldEditor;
     view: boolean;
+    defaultField: string;
 }

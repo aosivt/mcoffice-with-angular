@@ -71,7 +71,7 @@ export class  DictionaryService extends AbstractDictionaryService {
         return new Map([[nameParameter, parametr]]);
     }
 
-    public callJsonRpcService(path: string, method: string, nameParam?: string, data?: RowResultElement[]) {
+    public callJsonRpcService(path: string, method: string, nameParam?: string, data?: any) {
         console.log(data);
         const builderRequest = BuilderJsonRpcRequest.builder();
         if (data != null) {

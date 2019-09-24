@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TypeFieldEditor } from 'src/app/ui/bases/components/table/enums/type-field-editor';
 import { UnitDisableState } from 'src/app/ui/bases/types/enums/unit-disable-state';
 import { WorkNode } from '../../header-back-office/header-back-office.component';
+import { DisplayedColumnsElements } from 'src/app/ui/bases/components/table/interfaces/displayed-columns-elements';
 
 export class BanksDictionaryComponent extends TableComponent {
 
@@ -18,24 +19,24 @@ export class BanksDictionaryComponent extends TableComponent {
     return 'bank';
   }
 
-  public getDisplayedViewCollumns() {
+  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
     return [
       {key: 'id',         value: 'Индетификатор',               typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: false},
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false},
       {key: 'bankBik',    value: 'Бик',                         typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view:  true},
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view:  true},
       {key: 'korAccount', value: 'Кор.счет',                    typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true },
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
       {key: 'name',       value: 'Наименование',                typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true },
+      defaultField: '',                   typeView: TypeFieldEditor.TEXT,       view: true },
       {key: 'bankState',  value: 'Состояние банка',             typeDB:   UnitDisableState,
-                          typeView: TypeFieldEditor.SELECTENUM, view: true },
+      defaultField: '',                    typeView: TypeFieldEditor.SELECTENUM, view: true },
       {key: 'nameShort',  value: 'Короткое наименование',       typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true },
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
       {key: 'inn',        value: 'ИНН',                         typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true },
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
       {key: 'kpp',        value: 'КПП',                         typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true }];
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true }];
   }
   protected isVisibleButtonCopy():    boolean { return true; }
   protected isVisibleButtonInsert():  boolean { return true; }

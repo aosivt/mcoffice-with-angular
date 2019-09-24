@@ -2,25 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { TypeFieldEditor } from 'src/app/ui/bases/components/table/enums/type-field-editor';
 import { TableComponent } from 'src/app/ui/bases/components/table/table.component';
 import { WorkNode } from '../../header-back-office/header-back-office.component';
+import { DisplayedColumnsElements } from 'src/app/ui/bases/components/table/interfaces/displayed-columns-elements';
 
 export class ScantechRegDictionaryComponent extends TableComponent {
 
   public static SCANTECH_REG_DICTIONARIES_PATH_TREE: WorkNode = {
-    name: 'Регионы Скантек', action: 'scantech_reg', icon: 'bookmark'
+    name: 'Регионы Скантек', action: 'scan-tech-reg', icon: 'bookmark'
   };
 
   protected getRootPath(): string {
-    return 'scantech_reg';
+    return 'scan-tech-reg';
   }
 
-  public getDisplayedViewCollumns() {
+  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
     return [
       {key: 'id',         value: 'Индетификатор',               typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: false},
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false},
       {key: 'name',       value: 'Наименование',                typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true },
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
       {key: 'numCode',    value: 'Номенклатура кода',           typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: false },
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false },
       ];
   }
   protected isVisibleButtonCopy():    boolean { return true; }

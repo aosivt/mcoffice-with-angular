@@ -76,13 +76,13 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
               private changeDetectorRefs: ChangeDetectorRef,
               public route: ActivatedRoute,
               public router: Router,
-              public injector: Injector) { }
+              public injector: Injector) { 
+                this.getDisplayedViewCollumns();
+              }
 
-  ngOnInit() {
-    this.refresh();
-  }
+  ngOnInit() {}
   ngAfterViewInit() {
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.refresh();
   }
 
   get countElementInsideTable() {
@@ -95,13 +95,14 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
         .callJsonRpcService(this.getRootPath(), this.getPathToServiceCollection())
         .pipe()
         .subscribe((result: JsonRpcResponse[]) => {
-          console.log(result);
+          // console.log(result);
           this._dataSource =
-            new MatTableDataSource<RowResultElement>(<RowResultElement[]>result[0].result);
+            new MatTableDataSource<RowResultElement>(result[0].result as RowResultElement[]);
           this.dataSource.paginator = this.paginator;
+          this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
           this.dataSource.sort = this.sort;
           this.changeDetectorRefs.detectChanges();
-        }, error => that.service.errorCallBack(error)
+        }, error => that.showDialogError(that.service.errorCallBack(error.error))
         );
   }
   @Input()
@@ -209,7 +210,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
                                     'models',
                                     this.selection.selected)
       .subscribe((result: JsonRpcResponse) => {
-        console.log(result);
+        // // console.log(result);
         this.refresh();
       }, error =>
       that.showDialogError(that.service.errorCallBack(error.error))
@@ -232,9 +233,9 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     this.service.callJsonRpcService(this.getRootPath(),
                                     this.getPathToServiceCollectionInsert(),
                                     'models',
-                                    [this.dataTableEditor])
+                                    [dataTableEditor])
       .subscribe((result: JsonRpcResponse) => {
-        console.log(result);
+        // // console.log(result);
         this.refresh();
       }, error =>
         that.showDialogError(that.service.errorCallBack(error.error))
@@ -258,11 +259,12 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     this.selection.clear();
   }
   public clickViewButton() {
-    const row = this.selection.selected[0];
-    this._customAction = this.getPathToServiceInsert();
-    this.config.data.isOnlyView = true;
-    this.showEditor(row);
-    this.selection.clear();
+    // const row = this.selection.selected[0];
+    this.editorElement.toggle();
+    // this._customAction = this.getPathToServiceInsert();
+    // this.config.data.isOnlyView = true;
+    // this.showEditor(row);
+    // this.selection.clear();
   }
   public isMoreOneSelectedRow() {
     return this.selection.selected.length !== 1;
@@ -273,21 +275,21 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     this.config.data.action = this.getCustomAction();
     const dialogRef = this.dialog.open( TableEditorComponent, this.config);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // // console.log(result);
       this._customAction = null;
       this.config.data.isOnlyView = false;
       this.filteredTableData();
     });
   }
   public showDialogError(errors: JsonRpcError[]) {
-    console.log(errors);
+    // // console.log(errors);
     this.config.data.dataRow = errors;
     const dialogRef = this.dialog.open( ContentDialogErrorComponent, this.config);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      this._customAction = null;
-      this.config.data.isOnlyView = false;
-      this.filteredTableData();
+      // // console.log(result);
+      // this._customAction = null;
+      // this.config.data.isOnlyView = false;
+      // this.filteredTableData();
     });
   }
 
@@ -296,6 +298,8 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
       return EMPTY_TABLE_VALUE;
     } else if (this._displayedColumns.find(f => f.key === item).typeView === TypeFieldEditor.SELECTENUM) {
       return this._displayedColumns.find(f => f.key === item).typeDB['valueByName'](key[item]).text;
+    } else if (this._displayedColumns.find(f => f.key === item).typeView === TypeFieldEditor.SELECTDB) {
+      return key[item][this._displayedColumns.find(f => f.key === item).defaultField];
     } else if (this._displayedColumns.find(f => f.key === item).typeView === TypeFieldEditor.CHECKBOX) {
       return key[item] ? 'Да' : 'Нет';
     }
@@ -303,7 +307,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   }
 
   public clickPrintButton() {
-    console.log(this.dataSource._orderData(this.dataSource.filteredData));
+    // // console.log(this.dataSource._orderData(this.dataSource.filteredData));
     let printContents;
     let popupWin;
     printContents = document.getElementById('print-section').innerHTML;
@@ -371,7 +375,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   protected getConfigTabForEditor(): TabsEditorComponent[] {
     return [
       { route: '',
-        type:  'main',  
+        type:  'main',
         name:  'Главная'
       }
     ];
@@ -386,26 +390,47 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.service.getHttpConnect().post(
-    this.service.
-    getFullPathToWebServiceByPathService(
-    this.getPathToServiceSelectCollectionByModel()), this.filterData).
-    subscribe((result: RowResultElement[]) => {
-    this._dataSource = new MatTableDataSource<RowResultElement>(result);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.changeDetectorRefs.detectChanges();
-    });
+    const that = this;
+    this.service.callJsonRpcService(this.getRootPath(),
+                                    this.getPathToServiceSelectCollectionByModel(),
+                                    'model',
+                                    this.filterData)
+                                    .subscribe((result: JsonRpcResponse[]) => {
+                                      // // console.log(result);
+                                      this._dataSource = new MatTableDataSource<RowResultElement>(result[0].result as RowResultElement[]);
+                                      this.dataSource.paginator = this.paginator;
+                                      this.dataSource.sort = this.sort;
+                                      this.changeDetectorRefs.detectChanges();
+                                      // this.refresh();
+                                    }, error =>
+                                      that.showDialogError(that.service.errorCallBack(error.error))
+                                    );
+    // this.service.getHttpConnect().post(
+    // this.service.
+    // getFullPathToWebServiceByPathService(
+    // this.getPathToServiceSelectCollectionByModel()), this.filterData).
+    // subscribe((result: RowResultElement[]) => {
+    // this._dataSource = new MatTableDataSource<RowResultElement>(result);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    // this.changeDetectorRefs.detectChanges();
+    // });
     this.selection.clear();
   }
-  private isTextField(key: string): boolean {
-    return this.getTypeFieldEditor(key) === TypeFieldEditor.TEXT;
+  public isTextField(key: string): boolean {
+    const t = this.getTypeFieldEditor(key);
+    // console.log('------------------------------------------------------');
+    // console.log();
+    return TypeFieldEditor[TypeFieldEditor[t]].toString() === TypeFieldEditor[TypeFieldEditor.TEXT].toString();
   }
   private isSelectEnumField(key: string): boolean {
     return this.getTypeFieldEditor(key) === TypeFieldEditor.SELECTENUM;
   }
   private isCheckBoxField(key: string): boolean {
     return this.getTypeFieldEditor(key) === TypeFieldEditor.CHECKBOX;
+  }
+  private isSelectDBField(key: string){
+    return this.getTypeFieldEditor(key) === TypeFieldEditor.SELECTDB;
   }
   private getTypeFieldEditor(key: string): TypeFieldEditor {
     return this.getConfigDisplayedColumn(key).typeView;
@@ -443,6 +468,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     const blob = new Blob([csvArray], {type: 'text/csv' });
     saveAs(blob, 'test.csv');
   }
+
 
   
   public getInstance(): TableComponent {

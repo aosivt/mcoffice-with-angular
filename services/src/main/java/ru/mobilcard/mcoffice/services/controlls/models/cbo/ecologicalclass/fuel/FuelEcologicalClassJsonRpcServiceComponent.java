@@ -1,6 +1,7 @@
 package ru.mobilcard.mcoffice.services.controlls.models.cbo.ecologicalclass.fuel;
 
 
+import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
 import org.springframework.stereotype.Service;
 
 import ru.mobilcard.mcoffice.database.mappers.cbo.FuelEcologicalClassMapper;
@@ -10,7 +11,7 @@ import ru.mobilcard.mcoffice.services.controlls.config.BaseModelJsonRpcService;
 
 
 @Service
-//@AutoJsonRpcServiceImpl
+@AutoJsonRpcServiceImpl
 public class FuelEcologicalClassJsonRpcServiceComponent
         extends BaseModelJsonRpcService<FuelEcologicalClassMapper, FuelEcologicalClassModel, Long>
         implements FuelEcologicalClassJsonRpcService {

@@ -10,8 +10,6 @@ import ru.mobilcard.mcoffice.database.mappers.cbo.TaxDocDirMapper;
 import ru.mobilcard.mcoffice.database.models.cbo.TaxDocDirModel;
 
 
-
-
 @Service
 @AutoJsonRpcServiceImpl
 public class TaxDocDirJsonRpcServiceComponent

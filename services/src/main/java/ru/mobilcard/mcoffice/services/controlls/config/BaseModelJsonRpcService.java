@@ -1,18 +1,24 @@
 package ru.mobilcard.mcoffice.services.controlls.config;
 
+import com.google.gson.Gson;
 import com.googlecode.jsonrpc4j.JsonRpcParam;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import ru.mobilcard.mcoffice.database.config.TableFieldsResponse;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableFields;
 import ru.mobilcard.mcoffice.database.fasades.BaseFacade;
 import ru.mobilcard.mcoffice.database.mappers.Mapper;
 import ru.mobilcard.mcoffice.database.mappers.cbo.ArticleMapper;
 import ru.mobilcard.mcoffice.database.models.cbo.ArticleModel;
 import ru.mobilcard.mcoffice.database.models.interfaces.Model;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Proxy;
 import java.sql.SQLException;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 //@SuppressWarnings("unchecked")
@@ -86,6 +92,15 @@ public abstract class BaseModelJsonRpcService<MapperType , ModelType , Identifie
         return models;
     }
 
+    public List getTableFieldsAnnotations() throws SQLException {
+        var temp =
+                Arrays.stream(getModelClass().getDeclaredFields())
+                .map(f->f.getAnnotation(TableFields.class))
+                .map(TableFieldsResponse::new)
+                .collect(Collectors.toList());
+        return temp;
+    }
+
     public <MapperType extends Mapper<ModelType, IdentifierType>,
             ModelType  extends Model, IdentifierType> BaseFacade getBaseFacade(){
         return baseFacade;
@@ -96,5 +111,7 @@ public abstract class BaseModelJsonRpcService<MapperType , ModelType , Identifie
 
     public abstract <MapperType extends Mapper<ModelType, IdentifierType>,
             ModelType  extends Model, IdentifierType> Class<ModelType> getModelClass();
+
+
 
 }

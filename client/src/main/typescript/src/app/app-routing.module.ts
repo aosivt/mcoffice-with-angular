@@ -12,6 +12,7 @@ import { ScantechRegDictionaryComponent } from './ui/components/dictionaries/sca
 import { TableEditorComponent } from './ui/bases/components/table/inside-components/table-editor/table-editor.component';
 import { MainEditorComponent } from './ui/bases/components/table/inside-components/table-editor/main-editor/main-editor.component';
 import { ArticleTableEditorComponent } from './ui/components/dictionaries/article-dictionary-component/inside-components/article-table-editor/article-table-editor.component';
+import { FuelEcologicalClassDictionaryComponent } from './ui/components/dictionaries/fuel-ecological-class-dictionary/fuel-ecological-class-dictionary.component';
 
 
 // определение маршрутов
@@ -36,8 +37,9 @@ export class AppRoutingModule {
           {outlet: 'primary', path: 'editor', component: ArticleTableEditorComponent}
         ] },
         { outlet: 'primary', path: 'country', component: CountriesDictionaryComponent },
-        { outlet: 'primary', path: 'tag1214_way_payment', component: Tag1214WayPaymentDictionaryComponent },
-        { outlet: 'primary', path: 'scantech_reg', component: ScantechRegDictionaryComponent },
+        { outlet: 'primary', path: 'tag-1214-way-payment', component: Tag1214WayPaymentDictionaryComponent },
+        { outlet: 'primary', path: 'scan-tech-reg', component: ScantechRegDictionaryComponent },
+        { outlet: 'primary', path: 'fuel-ecological-class', component: FuelEcologicalClassDictionaryComponent },
         { outlet: 'modal', path: 'article', component: McoEmptyPageComponent },
         ] },
   ];

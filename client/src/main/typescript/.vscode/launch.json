@@ -4,7 +4,7 @@
     "type": "chrome",
     "request": "launch",
     "name": "Launch Chrome against localhost",
-    "url": "https://10.74.33.235:4200/mcoffice",
+    "url": "https://10.74.33.235:8444/mcoffice",
     "webRoot": "${workspaceFolder}",
     "sourceMapPathOverrides": {
       "*": "${webRoot}/*"

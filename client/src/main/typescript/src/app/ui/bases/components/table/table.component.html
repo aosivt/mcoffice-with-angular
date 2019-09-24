@@ -1,5 +1,5 @@
 <!-- {{selection.selected.length | json }} -->
-<mat-drawer-container class="table-container">
+<mat-drawer-container class="table-container" *ngIf="_displayedColumns!=null">
 
 
 <div id="print-section" hidden>
@@ -32,12 +32,12 @@
         <button mat-button [disabled]="this.selection.selected.length === 0" (click)=clickDeletedButton()>Удалить</button>
     </span>
   </mat-card-header>
-    <mat-card-content class="table-card-content">
+    <mat-card-content class="table-card-content" *ngIf="_displayedColumns!=null">
     {{ filterData | json }}
     
       <div class="sticky-header">
       
-      <table mat-table  [dataSource]="dataSource" class="mat-elevation-z8" 
+      <table mat-table  [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="_displayedColumns!=null"
       matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
@@ -67,7 +67,6 @@
                     <div mat-sort-header disableClear > {{getViewHeader(item)}} </div>
                     <div>
                       <span *ngIf="isTextField(item)">
-                          
                           <mat-form-field (click)="getViewHeader(item)">
                           <input matInput
                               (keyup)=fieldFilterData(item,$event.target.value)
@@ -75,7 +74,7 @@
                           </mat-form-field>
                           <mat-icon >filter_list</mat-icon>
                       </span>
-                      <span *ngIf="isSelectEnumField(item)">
+                      <!-- <span *ngIf="isSelectEnumField(item)">
                           <mat-form-field>
                           <mat-select (selectionChange)=filteredTableData()
                                       [(ngModel)]="filterData[item]">
@@ -91,6 +90,14 @@
                           [(ngModel)]="filterData[item]">
                           </mat-checkbox>
                       </span>
+                      <span *ngIf="isSelectDBField(item)">
+                          <mat-form-field (click)="getViewHeader(item)">
+                          <input matInput
+                              (keyup)=fieldFilterData(item,$event.target.value)
+                              (keyup.enter)=filteredTableData()>
+                          </mat-form-field>
+                          <mat-icon >filter_list</mat-icon>
+                      </span> -->
                     </div>
               </th>
                 

@@ -5,5 +5,6 @@ export enum TypeFieldEditor {
     SWITCH,
     SELECTENUM,
     CHECKBOX,
+    SELECTDB,
 
 }

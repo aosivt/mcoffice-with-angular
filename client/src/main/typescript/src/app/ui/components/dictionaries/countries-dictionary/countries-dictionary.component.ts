@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TypeFieldEditor } from 'src/app/ui/bases/components/table/enums/type-field-editor';
 import { TableComponent } from 'src/app/ui/bases/components/table/table.component';
 import { WorkNode } from '../../header-back-office/header-back-office.component';
+import { DisplayedColumnsElements } from 'src/app/ui/bases/components/table/interfaces/displayed-columns-elements';
 
 export class CountriesDictionaryComponent extends TableComponent {
 
@@ -13,16 +14,16 @@ export class CountriesDictionaryComponent extends TableComponent {
     return 'country';
   }
 
-  public getDisplayedViewCollumns() {
+  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
     return [
       {key: 'id',         value: 'Индетификатор',               typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: false},
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false},
       {key: 'name',       value: 'Наименование',                typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true },
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
       {key: 'nameShort',  value: 'Короткое наименование',       typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true },
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
       {key: 'countryEn13', value: 'Код страны в EAN нотации',                         typeDB:   {},
-                          typeView: TypeFieldEditor.TEXT,       view: true },
+      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
       ];
   }
   protected isVisibleButtonCopy():    boolean { return true; }

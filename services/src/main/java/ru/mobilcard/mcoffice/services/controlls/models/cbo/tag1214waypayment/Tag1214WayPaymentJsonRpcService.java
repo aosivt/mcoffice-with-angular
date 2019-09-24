@@ -8,7 +8,7 @@ import ru.mobilcard.mcoffice.database.models.cbo.Tag1214WayPaymentModel;
 import java.sql.SQLException;
 import java.util.Set;
 
-@JsonRpcService("/fuel-ecological-class")
+@JsonRpcService("/tag-1214-way-payment")
 public interface Tag1214WayPaymentJsonRpcService {
     public Tag1214WayPaymentModel getRecordById(@JsonRpcParam(value = "id") Long id) throws SQLException;
 

@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    min-width: 400px;
+    min-width: 450px;
     padding: 20px;
   }
   /* .main-menu-content{
@@ -54,7 +54,9 @@
       left: 0;
       overflow: auto;
   }
-  
+  .mat-icon {
+    font-size: 15px;
+  }
   /* .example-header-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;

@@ -20,7 +20,9 @@ import { PrintTableContentComponent } from '../ui/bases/components/table/inside-
 import { TableEditorSidenavComponent } from '../ui/bases/components/table/inside-components/table-editor-sidenav/table-editor-sidenav.component';
 import { ContentDialogErrorComponent } from '../ui/bases/components/table/inside-components/content-dialog-error/content-dialog-error.component';
 import { ArticleTableEditorComponent } from '../ui/components/dictionaries/article-dictionary-component/inside-components/article-table-editor/article-table-editor.component';
-
+import { ArticaleMainEditorComponent } from '../ui/components/dictionaries/article-dictionary-component/inside-components/article-table-editor/inside-components/articale-main-editor/articale-main-editor.component';
+import { FuelEcologicalClassDictionaryComponent } from '../ui/components/dictionaries/fuel-ecological-class-dictionary/fuel-ecological-class-dictionary.component';
+import { TableComponent } from '../ui/bases/components/table/table.component';
 @NgModule({
     declarations: [ BanksDictionaryComponent,
                     ArticleDictionaryComponent,
@@ -32,14 +34,16 @@ import { ArticleTableEditorComponent } from '../ui/components/dictionaries/artic
                     PrintTableContentComponent,
                     TableEditorSidenavComponent,
                     ArticleTableEditorComponent,
-                    ContentDialogErrorComponent
+                    ContentDialogErrorComponent,
+                    ArticaleMainEditorComponent,
+                    FuelEcologicalClassDictionaryComponent
                      ],
     imports: [ AppMaterialModule, CommonModule, FormsModule, ReactiveFormsModule ],
     exports: [ BanksDictionaryComponent, ArticleDictionaryComponent, Tag1214WayPaymentDictionaryComponent,
                FilterTableComponent, ContextMenuTableComponent , CountriesDictionaryComponent,
                ScantechRegDictionaryComponent, PrintTableContentComponent,
                TableEditorSidenavComponent, ArticleTableEditorComponent ],
-    entryComponents: [ArticleTableEditorComponent, ContentDialogErrorComponent]
+    entryComponents: [ArticleTableEditorComponent, ContentDialogErrorComponent ]
     }
     )
 
@@ -50,6 +54,7 @@ export class DictionaryModule {
           BanksDictionaryComponent.BANKS_DICTIONARIES_PATH_TREE,
           Tag1214WayPaymentDictionaryComponent.TAG1214_DICTIONARIES_PATH_TREE,
           CountriesDictionaryComponent.COUNTRIES_DICTIONARIES_PATH_TREE,
+          FuelEcologicalClassDictionaryComponent.FUEL_ECOLOGICAL_DICTIONARIES_PATH_TREE,
           ScantechRegDictionaryComponent.SCANTECH_REG_DICTIONARIES_PATH_TREE
         ]
     };

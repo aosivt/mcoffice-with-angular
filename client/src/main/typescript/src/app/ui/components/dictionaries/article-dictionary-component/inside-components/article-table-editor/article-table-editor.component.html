@@ -5,85 +5,32 @@
 
 </mat-card-header>
 <mat-card-content>
-        <form >
-                <span *ngFor="let item of displayedViewColumns; let i = index">
-                <!-- {{item | json }} -->
-                        <span *ngIf="isTextField(item.typeView)">
-                                <mat-form-field>
-                                <input matInput 
-                                placeholder={{item.value}}
-                                [value]="this.getLastSelected()[item.key]"            
-                                (keyup)="fieldTempData(item.key, $event.target.value)">
-                                </mat-form-field>
-                        </span> 
-                        <!-- <span *ngIf="isSelectEnumField(item.typeView)" >
-                        <mat-form-field  >
-                        <mat-label>{{item.value}}</mat-label>
-                        <mat-select [(ngModel)]="parentEditor.data.dataRow[item.key]">
-                        <mat-option *ngFor="let enumDb of getValuesFromEnumType(item)" 
-                        [value]="enumDb.enumName">{{enumDb.text}}
-                        </mat-option>
-                        </mat-select>
-                        </mat-form-field>
-                        </span> -->
-                        <span *ngIf="isCheckBoxField(item.typeView)">
-                                <section>
-                                <mat-checkbox [value]="this.getLastSelected()[item.key]"            
-                                (change)="fieldTempData(item.key, $event.checked)">
-                                {{item.value}}
-                                </mat-checkbox>
-                                </section>
-                        </span>
+<mat-tab-group>
+                <mat-tab label="Главная">
+                  <ng-template matTabContent>
+                        <app-articale-main-editor [parent]="getInstance()"></app-articale-main-editor>
+                  </ng-template>
+                </mat-tab>
+                <mat-tab label="Упаковки">
+                  <ng-template matTabContent>
+                    <!-- Content 2 - Loaded: {{getTimeLoaded(2) | date:'medium'}} -->
+                  </ng-template>
+                </mat-tab>
+                <mat-tab label="Налоговые ставки">
+                  <ng-template matTabContent>
+                    <!-- Content 3 - Loaded: {{getTimeLoaded(3) | date:'medium'}} -->
+                  </ng-template>
+                </mat-tab>
+                <mat-tab label="Форматы подразделения">
+                    <ng-template matTabContent>
+                                <!-- Content 3 - Loaded: {{getTimeLoaded(3) | date:'medium'}} -->
+                    </ng-template>
+                </mat-tab>
+</mat-tab-group>
         
-</span>
-</form>
 </mat-card-content>
         <mat-card-actions>
                 <button mat-button (click)="clickSave()">Сохранить</button>
                 <button mat-button (click)="clickCancel()">Отмена</button>
         </mat-card-actions>
 </mat-card>
-              
- 
-
-
-
-        <!-- <mat-form-field class="username-login">
-            <input matInput placeholder="Код:" formControlName="code">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Базовый штрих код:" formControlName="baseCode">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Все штрих коды:" formControlName="allBaseCode">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Тип:" formControlName="type">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Название:" formControlName="name">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Короткое названиее:" formControlName="shortName">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Длинное название:" formControlName="longName">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Ценовая группа:" formControlName="paymentGroup">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Комментарий:" formControlName="comment">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Тип:" formControlName="typePack">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Классификатор:" formControlName="classification">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Система налогооблажения:" formControlName="taxSystem">
-        </mat-form-field>
-        <mat-form-field class="username-login">
-                <input matInput placeholder="Имеет минимальную цену:" formControlName="hasMinPrice">
-        </mat-form-field> -->
