@@ -7,12 +7,11 @@ import com.googlecode.jsonrpc4j.JsonRpcParam;
 import com.googlecode.jsonrpc4j.JsonRpcService;
 
 import ru.mobilcard.mcoffice.database.models.wrk.ScanTechRegModel;
-
-
+import ru.mobilcard.mcoffice.services.controlls.config.BaseJsonRpcService;
 
 
 @JsonRpcService("/scan-tech-reg")
-public interface ScanTechRegJsonRpcService {
+public interface ScanTechRegJsonRpcService extends BaseJsonRpcService {
 
     public ScanTechRegModel getRecordById(@JsonRpcParam(value = "id") Long id) throws SQLException;
 

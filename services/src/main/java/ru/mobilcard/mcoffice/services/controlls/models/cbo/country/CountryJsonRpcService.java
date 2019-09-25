@@ -5,13 +5,14 @@ import com.googlecode.jsonrpc4j.JsonRpcService;
 
 
 import ru.mobilcard.mcoffice.database.models.cbo.CountryModel;
+import ru.mobilcard.mcoffice.services.controlls.config.BaseJsonRpcService;
 
 
 import java.sql.SQLException;
 import java.util.Set;
 
 @JsonRpcService("/country")
-public interface CountryJsonRpcService {
+public interface CountryJsonRpcService extends BaseJsonRpcService {
     public CountryModel getRecordById(@JsonRpcParam(value = "id") Long id) throws SQLException;
 
     public Set<CountryModel> getRecordByModel(@JsonRpcParam(value = "model") CountryModel model) throws SQLException;

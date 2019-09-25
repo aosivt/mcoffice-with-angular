@@ -19,25 +19,6 @@ export class BanksDictionaryComponent extends TableComponent {
     return 'bank';
   }
 
-  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
-    return [
-      {key: 'id',         value: 'Индетификатор',               typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false},
-      {key: 'bankBik',    value: 'Бик',                         typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view:  true},
-      {key: 'korAccount', value: 'Кор.счет',                    typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
-      {key: 'name',       value: 'Наименование',                typeDB:   {},
-      defaultField: '',                   typeView: TypeFieldEditor.TEXT,       view: true },
-      {key: 'bankState',  value: 'Состояние банка',             typeDB:   UnitDisableState,
-      defaultField: '',                    typeView: TypeFieldEditor.SELECTENUM, view: true },
-      {key: 'nameShort',  value: 'Короткое наименование',       typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
-      {key: 'inn',        value: 'ИНН',                         typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
-      {key: 'kpp',        value: 'КПП',                         typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true }];
-  }
   protected isVisibleButtonCopy():    boolean { return true; }
   protected isVisibleButtonInsert():  boolean { return true; }
   protected isVisibleButtonDelete():  boolean { return true; }

@@ -4,12 +4,13 @@ import com.googlecode.jsonrpc4j.JsonRpcParam;
 import com.googlecode.jsonrpc4j.JsonRpcService;
 
 import ru.mobilcard.mcoffice.database.models.cbo.FuelEcologicalClassModel;
+import ru.mobilcard.mcoffice.services.controlls.config.BaseJsonRpcService;
 
 import java.sql.SQLException;
 import java.util.Set;
 
 @JsonRpcService("/fuel-ecological-class")
-public interface FuelEcologicalClassJsonRpcService {
+public interface FuelEcologicalClassJsonRpcService extends BaseJsonRpcService {
     public FuelEcologicalClassModel getRecordById(@JsonRpcParam(value = "id") Long id) throws SQLException;
 
     public Set<FuelEcologicalClassModel> getRecordByModel(@JsonRpcParam(value = "model") FuelEcologicalClassModel model) throws SQLException;

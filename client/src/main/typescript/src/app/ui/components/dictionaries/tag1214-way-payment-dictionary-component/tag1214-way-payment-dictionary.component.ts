@@ -14,14 +14,14 @@ export class Tag1214WayPaymentDictionaryComponent extends TableComponent {
     return 'tag-1214-way-payment';
   }
 
-  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
-    return [
-      {key: 'id',         value: 'Индетификатор',               typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false},
-      {key: 'name',       value: 'Наименование',                typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
-      ];
-  }
+  // public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
+  //   return [
+  //     {key: 'id',         value: 'Индетификатор',               typeDB:   {},
+  //     defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false},
+  //     {key: 'name',       value: 'Наименование',                typeDB:   {},
+  //     defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
+  //     ];
+  // }
 
   protected isVisibleButtonView(): boolean { return true; }
 

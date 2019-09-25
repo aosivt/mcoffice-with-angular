@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableFields;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableField;
 
 import java.io.Serializable;
 @Data
@@ -21,7 +21,7 @@ public class TableFieldsResponse implements Serializable {
     private String defaultField;
     private String typeView;
 
-    public TableFieldsResponse(TableFields tf){
+    public TableFieldsResponse(TableField tf){
         key = tf.key();
         value = tf.value();
         view = tf.view();

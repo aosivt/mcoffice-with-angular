@@ -3,20 +3,16 @@ package ru.mobilcard.mcoffice.services.controlls.models.cbo.article;
 import com.googlecode.jsonrpc4j.JsonRpcParam;
 import com.googlecode.jsonrpc4j.JsonRpcService;
 
-import org.postgresql.util.PSQLException;
-import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableFields;
-import ru.mobilcard.mcoffice.database.mappers.wrk.ScanTechRegMapper;
 import ru.mobilcard.mcoffice.database.models.cbo.ArticleModel;
-import ru.mobilcard.mcoffice.database.models.wrk.ScanTechRegModel;
+import ru.mobilcard.mcoffice.services.controlls.config.BaseJsonRpcService;
 
 
-import java.lang.reflect.Proxy;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
 @JsonRpcService("/article")
-public interface ArticleJsonRpcService {
+public interface ArticleJsonRpcService extends BaseJsonRpcService {
 
     public ArticleModel getRecordById(@JsonRpcParam(value = "id") String id) throws SQLException;
 
@@ -35,7 +31,5 @@ public interface ArticleJsonRpcService {
     public ArticleModel updateRecord(@JsonRpcParam(value = "model") ArticleModel model) throws SQLException;
 
     public Set<ArticleModel> updateCollectionRecord(@JsonRpcParam(value = "models") Set<ArticleModel> models) throws SQLException;
-
-    public List getTableFieldsAnnotations() throws Exception;
 
 }

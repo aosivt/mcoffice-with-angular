@@ -16,7 +16,7 @@ import { JsonRpcResponse } from 'src/app/services/json-rpc/interfaces/json-rpc-r
 export class ArticleDictionaryComponent extends TableComponent {
 
   TableEditor = ArticleTableEditorComponent;
-  instance: Injector;
+  
   displayedCollumnsElements: DisplayedColumnsElements[];
 
   public static ARTICLE_DICTIONARIES_PATH_TREE: WorkNode = {
@@ -26,34 +26,6 @@ export class ArticleDictionaryComponent extends TableComponent {
 
   protected getRootPath(): string {
     return 'article';
-  }
-
-  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
-    
-    
-    if (this._displayedColumns == null) {
-      const that = this;
-      
-      this.service.callJsonRpcService(this.getRootPath(), 'getTableFieldsAnnotations')
-      .subscribe((result: JsonRpcResponse[]) => {
-        this._displayedColumns = result[0].result as DisplayedColumnsElements[];
-        this.refresh();
-        this.initInjector();
-      }, error =>
-        that.showDialogError(that.service.errorCallBack(error.error))
-      );
-    }
-    return this._displayedColumns;
-  }
-  public initInjector() {
-          this.instance =
-          Injector.create({
-          providers: [{provide: TableComponent,
-          useValue: this.getInstance(),
-          deps: []}],
-          parent: this.injector});
-
-    
   }
 
   protected getConfigTabForEditor(): TabsEditorComponent[] {

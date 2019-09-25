@@ -4,12 +4,13 @@ import com.googlecode.jsonrpc4j.JsonRpcParam;
 import com.googlecode.jsonrpc4j.JsonRpcService;
 
 import ru.mobilcard.mcoffice.database.models.cbo.Tag1214WayPaymentModel;
+import ru.mobilcard.mcoffice.services.controlls.config.BaseJsonRpcService;
 
 import java.sql.SQLException;
 import java.util.Set;
 
 @JsonRpcService("/tag-1214-way-payment")
-public interface Tag1214WayPaymentJsonRpcService {
+public interface Tag1214WayPaymentJsonRpcService extends BaseJsonRpcService {
     public Tag1214WayPaymentModel getRecordById(@JsonRpcParam(value = "id") Long id) throws SQLException;
 
     public Set<Tag1214WayPaymentModel> getRecordByModel(@JsonRpcParam(value = "model") Tag1214WayPaymentModel model) throws SQLException;

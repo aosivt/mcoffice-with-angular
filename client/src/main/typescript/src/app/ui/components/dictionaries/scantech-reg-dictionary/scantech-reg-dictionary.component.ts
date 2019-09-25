@@ -14,16 +14,16 @@ export class ScantechRegDictionaryComponent extends TableComponent {
     return 'scan-tech-reg';
   }
 
-  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
-    return [
-      {key: 'id',         value: 'Индетификатор',               typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false},
-      {key: 'name',       value: 'Наименование',                typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
-      {key: 'numCode',    value: 'Номенклатура кода',           typeDB:   {},
-      defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false },
-      ];
-  }
+  // public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
+  //   return [
+  //     {key: 'id',         value: 'Индетификатор',               typeDB:   {},
+  //     defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false},
+  //     {key: 'name',       value: 'Наименование',                typeDB:   {},
+  //     defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: true },
+  //     {key: 'numCode',    value: 'Номенклатура кода',           typeDB:   {},
+  //     defaultField: '',                    typeView: TypeFieldEditor.TEXT,       view: false },
+  //     ];
+  // }
   protected isVisibleButtonCopy():    boolean { return true; }
   protected isVisibleButtonInsert():  boolean { return true; }
   protected isVisibleButtonDelete():  boolean { return true; }

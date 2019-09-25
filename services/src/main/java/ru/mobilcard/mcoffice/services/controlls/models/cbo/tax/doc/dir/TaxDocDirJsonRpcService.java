@@ -4,12 +4,13 @@ import com.googlecode.jsonrpc4j.JsonRpcParam;
 import com.googlecode.jsonrpc4j.JsonRpcService;
 
 import ru.mobilcard.mcoffice.database.models.cbo.TaxDocDirModel;
+import ru.mobilcard.mcoffice.services.controlls.config.BaseJsonRpcService;
 
 import java.sql.SQLException;
 import java.util.Set;
 
 @JsonRpcService("/tax-doc-dir")
-public interface TaxDocDirJsonRpcService {
+public interface TaxDocDirJsonRpcService extends BaseJsonRpcService {
     public TaxDocDirModel getRecordById(@JsonRpcParam(value = "id") Long id) throws SQLException;
 
     public Set<TaxDocDirModel> getRecordByModel(@JsonRpcParam(value = "model") TaxDocDirModel model) throws SQLException;

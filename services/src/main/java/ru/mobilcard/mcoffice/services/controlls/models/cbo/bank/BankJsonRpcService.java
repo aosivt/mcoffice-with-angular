@@ -4,13 +4,14 @@ import com.googlecode.jsonrpc4j.JsonRpcParam;
 import com.googlecode.jsonrpc4j.JsonRpcService;
 
 import ru.mobilcard.mcoffice.database.models.cbo.BankModel;
+import ru.mobilcard.mcoffice.services.controlls.config.BaseJsonRpcService;
 
 
 import java.sql.SQLException;
 import java.util.Set;
 
 @JsonRpcService("/bank")
-public interface BankJsonRpcService {
+public interface BankJsonRpcService extends BaseJsonRpcService {
     public BankModel getRecordById(@JsonRpcParam(value = "id") Long id) throws SQLException;
 
     public Set<BankModel> getRecordByModel(@JsonRpcParam(value = "model") BankModel model) throws SQLException;

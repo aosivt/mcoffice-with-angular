@@ -54,7 +54,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(ContextMenuTableComponent, {static: false}) contextMenu: ContextMenuTableComponent;
   @ViewChild(MatDrawer, {static: false}) editorElement: MatDrawer;
-
+  instance: Injector;
   _displayedColumns: DisplayedColumnsElements[] = this.getDisplayedViewCollumns();
   _customAction: string = null;
 
@@ -143,7 +143,7 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     return temp;
   }
   protected abstract getRootPath(): string;
-  public abstract getDisplayedViewCollumns(): DisplayedColumnsElements[];
+  // public abstract getDisplayedViewCollumns(): DisplayedColumnsElements[];
 
   protected getPathToServiceCollection(): string {
     return 'getCollection';
@@ -469,8 +469,29 @@ export abstract class TableComponent implements OnInit, AfterViewInit {
     saveAs(blob, 'test.csv');
   }
 
+  public getDisplayedViewCollumns(): DisplayedColumnsElements[] {
+    if (this._displayedColumns == null) {
+      const that = this;
+      this.service.callJsonRpcService(this.getRootPath(), 'getTableFieldsAnnotations')
+      .subscribe((result: JsonRpcResponse[]) => {
+      this._displayedColumns = result[0].result as DisplayedColumnsElements[];
+      this.refresh();
+      this.initInjector();
+      }, error =>
+      that.showDialogError(that.service.errorCallBack(error.error))
+      );
+    }
+    return this._displayedColumns;
+    }
+  public initInjector() {
+          this.instance =
+          Injector.create({
+          providers: [{provide: TableComponent,
+          useValue: this.getInstance(),
+          deps: []}],
+          parent: this.injector});
+  }
 
-  
   public getInstance(): TableComponent {
     return this;
   }
