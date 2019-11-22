@@ -1,7 +1,7 @@
 package ru.mobilcard.mcoffice.database.models.cbo;
 
 import lombok.*;
-import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableField;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.table.TableField;
 import ru.mobilcard.mcoffice.database.models.interfaces.Model;
 import ru.mobilcard.mcoffice.database.models.types.DocDirectionType;
 

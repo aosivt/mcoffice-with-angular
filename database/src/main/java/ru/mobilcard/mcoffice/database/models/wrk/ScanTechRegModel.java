@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableField;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.table.TableField;
 import ru.mobilcard.mcoffice.database.models.interfaces.Model;
 
 @Data

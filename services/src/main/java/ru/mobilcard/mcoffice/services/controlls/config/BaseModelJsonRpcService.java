@@ -3,8 +3,11 @@ package ru.mobilcard.mcoffice.services.controlls.config;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.MessageHeaders;
 import ru.mobilcard.mcoffice.database.config.TableFieldsResponse;
-import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableField;
+import ru.mobilcard.mcoffice.database.config.TreeWorkNodeResponse;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.table.TableField;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.tree.TreeWorkNode;
 import ru.mobilcard.mcoffice.database.fasades.BaseFacade;
 import ru.mobilcard.mcoffice.database.mappers.Mapper;
 import ru.mobilcard.mcoffice.database.models.interfaces.Model;
@@ -41,7 +44,7 @@ public abstract class BaseModelJsonRpcService<MapperType , ModelType , Identifie
         return getBaseFacade().getListDictionary(getMapperClass());
     }
 
-    public ModelType insertRecord( ModelType model) throws SQLException {
+    public ModelType insertRecord(ModelType model) throws SQLException {
         getBaseFacade().insertRecord(getModelClass().cast(model), getMapperClass());
         return model;
     }
@@ -92,6 +95,19 @@ public abstract class BaseModelJsonRpcService<MapperType , ModelType , Identifie
                     Arrays.stream(getModelClass().getDeclaredFields())
                             .map(f->f.getAnnotation(TableField.class))
                             .map(TableFieldsResponse::new)
+                            .collect(Collectors.toList());
+        } catch (NullPointerException npe) {
+            throw new RuntimeException("Ошибка определения полей таблици");
+        }
+        return tableAnnotations;
+    }
+    public List getTreeWorkNodeAnnotations() throws Exception {
+        List tableAnnotations = null;
+        try {
+            tableAnnotations =
+                    Arrays.stream(getModelClass().getDeclaredFields())
+                            .map(f->f.getAnnotation(TreeWorkNode.class))
+                            .map(TreeWorkNodeResponse::new)
                             .collect(Collectors.toList());
         } catch (NullPointerException npe) {
             throw new RuntimeException("Ошибка определения полей таблици");

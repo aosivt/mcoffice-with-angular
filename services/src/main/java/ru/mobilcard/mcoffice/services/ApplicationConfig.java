@@ -62,6 +62,7 @@ public class ApplicationConfig {
                 collection.addPattern("/*");
                 securityConstraint.addCollection(collection);
                 context.addConstraint(securityConstraint);
+                context.setSessionTimeout(1);
             }
         };
         tomcat.addAdditionalTomcatConnectors(redirectConnector());
@@ -83,6 +84,7 @@ public class ApplicationConfig {
         connector.setPort(httpPort);
         connector.setSecure(false);
         connector.setRedirectPort(8444);
+
         return connector;
     }
 }

@@ -44,6 +44,7 @@ export abstract class AbstractSocketService {
         const rxJsSubscription =
         this.rxStomp.watch('/user/security/user')
                     .pipe(map( (message) => {
+            console.log(message.body);
             return JSON.parse(message.body);
           })).subscribe( (payload) => {
             this_.onMessageReceived(payload);

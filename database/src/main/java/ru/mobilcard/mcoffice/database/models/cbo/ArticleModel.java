@@ -1,12 +1,17 @@
 package ru.mobilcard.mcoffice.database.models.cbo;
 
 import lombok.*;
-import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableField;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.tree.RootTreeWorkNode;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.table.TableField;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.tree.TreeWorkNode;
 import ru.mobilcard.mcoffice.database.models.interfaces.Model;
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@TreeWorkNode(action = "article", name = "Номенклатура", icon = "bookmark",
+              root = @RootTreeWorkNode(name = "Справочники", icon = "bookmark"))
+
 public class ArticleModel implements Model {
 
     @TableField(key = "externalStrId", value = "Идентификтор")

@@ -1,4 +1,4 @@
-package ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields;
+package ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.table;
 
 import java.io.Serializable;
 import java.lang.annotation.ElementType;

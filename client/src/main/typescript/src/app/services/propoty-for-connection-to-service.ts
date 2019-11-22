@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class PropertyForConnectionToService {
     
-    public static HOST_URI      = '10.74.33.235';
-    public static HOST_URI_SECURITY_SERVICE      = '10.74.33.235';
+    public static HOST_URI      = 'mbackoffice.nizinkin.local';
+    public static HOST_URI_SECURITY_SERVICE      = 'mbackoffice.nizinkin.local';
     public static PORT_URI      = '8444';
     public static NAME_SERVICE  = '/';
     public static PROTOCOL_URI  = 'https';

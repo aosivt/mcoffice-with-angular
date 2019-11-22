@@ -52,23 +52,24 @@ public class SecurityConfiguration
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
-            "**"
+//            "**"
 //
+                "/mcoffice",
 //                "/login",                             // the standard favicon URI
 //                "/error",                              // the robots exclusion standard
-//                "/",                              // the robots exclusion standard
+                "/",                              // the robots exclusion standard
 //                "/static/index.html",                              // the robots exclusion standard
 //                                    web application manifest
-//                "/src/main-es5.js",
-//                "/src/main-es2015.js",
-//                "/src/polyfills-es5.js",
-//                "/src/polyfills-es2015.js",
-//                "/src/runtime-es5.js",
-//                "/src/runtime-es2015.js",
-//                "/src/style-es5.js",
-//                "/src/style-es2015.js",
-//                "/src/vendor-es5.js",
-//                "/src/vendor-es2015.js",
+                "/main-es5.js",
+                "/main-es2015.js",
+                "/polyfills-es5.js",
+                "/polyfills-es2015.js",
+                "/runtime-es5.js",
+                "/runtime-es2015.js",
+                "/style-es5.js",
+                "/style-es2015.js",
+                "/vendor-es5.js",
+                "/vendor-es2015.js"
 //                "/src/favicon.ico"
 //                "/offline-page.html",
 //                "/icons/**",                                // icons and images

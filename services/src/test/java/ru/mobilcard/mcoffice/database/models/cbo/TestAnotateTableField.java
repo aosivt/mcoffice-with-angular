@@ -2,7 +2,7 @@ package ru.mobilcard.mcoffice.database.models.cbo;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.TableField;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.table.TableField;
 
 import java.util.Arrays;
 

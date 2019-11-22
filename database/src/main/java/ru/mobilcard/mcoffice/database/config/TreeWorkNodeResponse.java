@@ -6,27 +6,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.table.TableField;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.tree.RootTreeWorkNode;
+import ru.mobilcard.mcoffice.database.config.interfaces.annotations.gui.fields.tree.TreeWorkNode;
 
 import java.io.Serializable;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TableFieldsResponse implements Serializable {
+public class TreeWorkNodeResponse implements Serializable {
 
-    private String key;
+    private RootTreeWorkNode key;
     private String value;
     private boolean view;
     private String typeDB;
     private String defaultField;
     private String typeView;
 
-    public TableFieldsResponse(TableField tf){
-        key = tf.key();
-        value = tf.value();
-        view = tf.view();
-        typeDB = tf.typeDB();
-        defaultField = tf.defaultField();
-        typeView = tf.typeView();
+    public TreeWorkNodeResponse(TreeWorkNode tf){
+        key = tf.root();
+
     }
 }

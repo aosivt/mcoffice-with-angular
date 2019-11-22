@@ -33,7 +33,7 @@ export class WebSocketService extends AbstractSocketService {
     }
 
     public onMessageReceived(message: JsonRpcResponse) {
-
+        console.log(message);
         if (message.result !== null && isBoolean(message.result)) {
             this._isCheckAuth = message.result;
         } else if (message.result === null) {
@@ -47,7 +47,7 @@ export class WebSocketService extends AbstractSocketService {
 
     private checkReceivedAuth() {
         if (!this.isCheckAuth) {
-            window.open(PropertyForConnectionToService.getSecurityPage(), '_self') ;
+            window.open(PropertyForConnectionToService.getSecurityPage() + '/login', '_self') ;
         }
     }
     get isCheckAuth() {
